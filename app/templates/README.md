@@ -1,0 +1,1 @@
+Built with [generator-fronty] (https://github.com/Oikio/generator-fronty).

@@ -1,0 +1,22 @@
+{
+  "name": "<%= _.slugify(projectName) %>",
+  "version": "0.0.0",
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "app/bower_components",
+    "test",
+    "tests"
+  ],
+  "homepage": "https://github.com/Oikio/Frontster",
+  "authors": [
+    "Oikio <oikiostas@gmail.com>"
+  ],
+  "main": "Gruntfile.coffee",
+  "license": "MIT",
+  "dependencies": {},
+  "devDependencies": {
+    <% if (stuff.foundation) { %>"foundation": "~4.3.1"<% } %>
+  }
+}

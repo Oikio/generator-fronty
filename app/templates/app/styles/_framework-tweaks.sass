@@ -1,0 +1,18 @@
+<% if (stuff.foundation && stuff.fixed) { %>
+.w-layout > .row,
+.w-layout > * > .row
+  min-width: $row-width
+<% } %>
+<% if (stuff.foundation && stuff.concrete) { %>
+#ccm-highlighter
+  margin-top: -50px
+  z-index: 50 !important
+
+.ccm-menu.ccm-ui
+  margin-top: -50px
+
+.googleMapCanvas
+  width: 100%
+  border: 0px none
+  height: 400px
+<% } %>

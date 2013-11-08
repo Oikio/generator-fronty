@@ -1,0 +1,84 @@
+// w - wrapper
+// b - block
+// t - type
+// is - statement
+// i - include html
+// s or [data-foo] - has class script
+// %d - decorators placeholders
+// mod - modificator for modernizr, prefix-free and etc
+// a - area
+@import "compass"
+
+
+// Vars
+@import "vars"
+@import "mixins"
+@import "helpers"
+@import "palette"
+<% if (stuff.foundation) { %>@import "framework-config"<% } %>
+
+
+// Required gems
+<% if (stuff.foundation) { %>@import "foundation/components/global"
+@import "foundation/components/grid"
+//@import "foundation/components/visibility"
+//@import "foundation/components/block-grid"
+@import "foundation/components/type"
+//@import "foundation/components/buttons"
+//@import "foundation/components/forms"
+//@import "foundation/components/custom-forms"
+//@import "foundation/components/button-groups"
+//@import "foundation/components/dropdown-buttons"
+//@import "foundation/components/split-buttons"
+//@import "foundation/components/flex-video"
+//@import "foundation/components/section"
+//@import "foundation/components/top-bar"
+//@import "foundation/components/orbit"
+//@import "foundation/components/reveal"
+//@import "foundation/components/joyride"
+//@import "foundation/components/clearing"
+//@import "foundation/components/alert-boxes"
+//@import "foundation/components/breadcrumbs"
+//@import "foundation/components/keystrokes"
+//@import "foundation/components/labels"
+//@import "foundation/components/inline-lists"
+//@import "foundation/components/pagination"
+//@import "foundation/components/panels"
+//@import "foundation/components/pricing-tables"
+//@import "foundation/components/progress-bars"
+//@import "foundation/components/side-nav"
+//@import "foundation/components/sub-nav"
+//@import "foundation/components/switch"
+//@import "foundation/components/magellan"
+//@import "foundation/components/tables"
+//@import "foundation/components/thumbs"
+//@import "foundation/components/tooltips"
+//@import "foundation/components/dropdown"
+<% } %>
+
+// Vendor
+
+
+// Decorators
+
+
+// Sprites
+@import "sprites"
+
+
+// Global
+@import "animations"
+@import "global"
+@import "global-queries"
+
+// Blocks
+@import "blocks"
+
+// Types
+
+
+// Framework tweaks
+@import "framework-tweaks"
+
+// For some styles in hurry to fix it later
+@import "shame"

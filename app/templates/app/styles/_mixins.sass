@@ -1,0 +1,10 @@
+=for ($media)
+  @if $media == small
+    @media #{$small}
+      @content
+  @if $media == medium
+    @media #{$medium}
+      @content
+  @if $media == large
+    @media #{$large}
+      @content

@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link type="image/x-icon" rel="shortcut icon" href="favicon.ico"/>
+
+    <title><% _.slugify(appname) %></title>
+
+    <link rel="stylesheet" href="styles/all.css">
+
+    <!-- build:js scripts/utilities.js -->
+    <script type="text/javascript" src="scripts/vendor/modernizr.min.js"></script>
+    <!-- endbuild -->
+</head>
+<body>
+
+<div class="w-layout"></div>
+
+<!--<script type="text/javascript" src="http://code.jquery.com/jquery-2.0.3.min.js"></script>-->
+<script type="text/javascript">
+    if (!window.jQuery) {
+        document.write('<script src="scripts/fallbacks/jquery-2.0.3.min.js"><\/script>');
+    }
+</script>
+
+<!-- build:js scripts/main.js -->
+<% if (stuff.foundation) { %>
+<script type="text/javascript" src="bower_components/foundation/js/foundation/foundation.js"></script>
+<% } %>
+<script type="text/javascript" src="scripts/main.js"></script>
+<!-- endbuild -->
+
+
+<!------------------------------------------ Dev tools ------------------------------------------>
+
+<!-- setting fish utilities  -->
+<script type="text/javascript">
+    window.clone = function (obj) {
+        var Clone, c;
+        Clone = function () {};
+        Clone.prototype = obj;
+        c = new Clone();
+        c.constructor = Clone;
+        return c;
+    };
+    window.gFish = {};
+    gFish.partials = {};
+    window.gBlocks = {};
+</script>
+
+<!-- build:js scripts/dev/hogan.js -->
+<script type="text/javascript" src="scripts/vendor/hogan-2.0.0.min.js"></script>
+<!-- endbuild -->
+
+<!-- build:js(.tmp) scripts/dev/fish.js -->
+<script type="text/javascript" src="scripts/dev/fish_blocks.js"></script>
+<script type="text/javascript" src="scripts/dist-templates.js"></script>
+<script type="text/javascript" src="scripts/dev/dev-templates.js"></script>
+<!-- endbuild -->
+
+<!-- build:js scripts/dev/dev.js -->
+<script type="text/javascript" src="scripts/dev/fish_groups.js"></script>
+<script type="text/javascript" src="scripts/dev/protonav.js"></script>
+<!-- endbuild -->
+
+<!--<script src="http://localhost:35729/livereload.js"></script>-->
+
+<script type="text/javascript">
+    var name = 'main';
+    var context = 'main';
+    protoRender(localStorage.getItem('defaultProto') || name, localStorage.getItem('defaultFish') || context);
+</script>
+
+
+<!------------------------------------------ End of Dev tools ------------------------------------------>
+
+
+</body>
+
+</html>
