@@ -41,7 +41,7 @@ FrontsterGenerator.prototype.askFor = function askFor() {
         {
           name: 'Backend will be on CMS Concrete5',
           value: 'concrete',
-          checked: true
+          checked: false
         },
         {
           name: 'Fixed website',
