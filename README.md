@@ -20,6 +20,7 @@ grunt wdist:server # prebuild with watch and server
 grunt addB:name # add block with html,sass,coffee files and add it to styles/_blocks.sass
 grunt removeB:name # remove block
 grunt updateBlockList # updates blocks.sass
+grunt static:name # add static page
 ```
 
 ### Prototypes navigation:
@@ -37,9 +38,11 @@ grunt updateBlockList # updates blocks.sass
     * bower
 
 ### TODO
+* rewrite protonav
 * update imagemin, still get error "building is not supported on win32", because of node-jpegtran-bin.
 * make second UseminPrepare task with no minification (2.0 throws error, waiting for npm publish)
 * add tests
 
 ## Release History
+* 1.1.0 Static pages added, code refactoring done
 * 1.0.0 Here is Fronty!

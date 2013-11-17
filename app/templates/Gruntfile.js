@@ -1,6 +1,5 @@
-'use strict';
 var mountFolder = function (connect, dir) {
-  return connect['static'](require('path').resolve(dir));
+  return connect.static(require('path').resolve(dir));
 };
 
 module.exports = function (grunt) {
@@ -14,14 +13,25 @@ module.exports = function (grunt) {
         options: {
           spawn: false
         },
-        files: ['app/styles/**/*.{scss,sass}', 'app/fonts/**/*.{css,scss,sass}', 'app/blocks/**/*.{scss,sass}'],
+        files: [
+          'app/styles/**/*.{scss,sass}',
+          'app/fonts/**/*.{css,scss,sass}',
+          'app/blocks/**/*.{scss,sass}',
+          'app/static/**/*.{scss,sass}'
+        ],
         tasks: ['compass', 'autoprefixer']
       },
       livereload: {
         options: {
           livereload: true
         },
-        files: ['app/*.html', '{app}/fonts/**/*', 'app/images/{,*/}*.{png,jpg,jpeg,gif,webp,svg}', '.tmp/test/*.js']
+        files: [
+          'app/*.html',
+          '{app}/fonts/**/*',
+          'app/images/{,*/}*.{png,jpg,jpeg,gif,webp,svg}',
+          '.tmp/test/*.js',
+          'app/static/**/*.{html,js}'
+        ]
       },
       hogan: {
         options: {
@@ -91,10 +101,16 @@ module.exports = function (grunt) {
           sassDir: 'app/blocks',
           cssDir: '.tmp/blocks'
         }
+      },
+      static: {
+        options: {
+          sassDir: 'app/static',
+          cssDir: '.tmp/static'
+        }
       }
     },
     useminPrepare: {
-      html: 'app/index.html',
+      html: ['app/index.html', 'app/static/**/*.html'],
       options: {
         dest: 'dist'
 //        flow: {
@@ -139,7 +155,7 @@ module.exports = function (grunt) {
           {
             expand: true,
             cwd: '.tmp',
-            src: ['styles/{,*/}*.css', 'blocks/**/*.css'],
+            src: ['styles/{,*/}*.css', 'blocks/**/*.css', 'static/**/*.css'],
             dest: 'dist'
           }
         ],
@@ -164,7 +180,7 @@ module.exports = function (grunt) {
           {
             expand: true,
             cwd: 'app',
-            src: ['templates/**/*.html', 'blocks/**/*.html'],
+            src: ['templates/**/*.html', 'blocks/**/*.html', 'static/**/*.html'],
             dest: 'dist'
           }
         ]
@@ -292,7 +308,8 @@ module.exports = function (grunt) {
             dest: 'dist',
             src: [
               'styles/*.css',
-              'blocks/**/*.css'
+              'blocks/**/*.css',
+              'static/**/*.css'
             ]
           }
         ]
@@ -393,7 +410,7 @@ module.exports = function (grunt) {
   };
 
   grunt.registerTask('updateBlockList', 'Updates list of sass blocks in blocks.sass.', function () {
-    return updateBlockList();
+    updateBlockList();
   });
 
   grunt.registerTask('addB', 'Adds block in blocks folder and updates block.sass.', function (name) {
@@ -403,13 +420,20 @@ module.exports = function (grunt) {
     });
     grunt.file.write('app/blocks/b-' + name + '/b-' + name + '.html', '<div class="b-' + name + '">\n\n  \n\n</div>');
     grunt.file.write('app/blocks/b-' + name + '/_b-' + name + '.sass', '.b-' + name);
-    grunt.file.write('app/blocks/b-' + name + '/b-' + name + '.js', '$(function() {\n  \'use strict\';\n  \n  \n});');
+    grunt.file.write('app/blocks/b-' + name + '/b-' + name + '.js', '$(function() {\n  \n});');
     grunt.file.write('app/blocks/b-' + name + '/b-' + name + '_fish.js', 'gBlocks.b' + (CCName.charAt(0).toUpperCase() + CCName.slice(1)) + ' = {\n   \n};');
-    return updateBlockList();
+    updateBlockList();
   });
 
-  return grunt.registerTask('removeB', 'Removes block in blocks folder and updates block.sass.', function (name) {
+  grunt.registerTask('removeB', 'Removes block in blocks folder and updates block.sass.', function (name) {
     grunt.file['delete']('app/blocks/b-' + name);
-    return updateBlockList();
+    updateBlockList();
   });
+
+  grunt.registerTask('static', 'Adds static page in "static" folder', function (name) {
+    grunt.file.write('app/static/' + name + '/' + name + '.html', '<!DOCTYPE html>\n<html lang="ru">\n<head>\n    <meta charset="utf-8">\n    <meta name="viewport" content="width=device-width, initial-scale=1.0">\n    <meta name="description" content="">\n    <link type="image/x-icon" rel="shortcut icon" href="../../favicon.ico"/>\n\n    <title></title>\n\n    <link rel="stylesheet" href="name.css">\n\n</head>\n<body>\n\n<div class="w-layout">\n\n\n\n\n\n</div>\n\n<!--<script type="text/javascript" src="http://code.jquery.com/jquery-2.0.3.min.js"></script>\n<script type="text/javascript">\n    if (!window.jQuery) {\n        document.write(\'<script src="../../scripts/fallbacks/jquery-2.0.3.min.js"><\\/script>\');\n    }\n</script>-->\n\n<!-- build:js static/name/name.js -->\n<script type="text/javascript" src="name.js"></script>\n<!-- endbuild -->\n\n</body>\n\n</html>');
+    grunt.file.write('app/static/' + name + '/' + name + '.sass', '');
+    grunt.file.write('app/static/' + name + '/' + name + '.js', '');
+  });
+
 };
