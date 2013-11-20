@@ -44,5 +44,6 @@ grunt static:name # add static page
 * add tests
 
 ## Release History
+* 1.2.0 .html files changed to .mustache, minor fixes inf gruntfile
 * 1.1.0 Static pages added, code refactoring done
 * 1.0.0 Here is Fronty!

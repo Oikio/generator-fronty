@@ -26,7 +26,7 @@ module.exports = function (grunt) {
           livereload: true
         },
         files: [
-          'app/*.html',
+          'app/*.{html,mustache}',
           '{app}/fonts/**/*',
           'app/images/{,*/}*.{png,jpg,jpeg,gif,webp,svg}',
           '.tmp/test/*.js',
@@ -37,7 +37,7 @@ module.exports = function (grunt) {
         options: {
           spawn: false
         },
-        files: ['app/templates/**/*.html', 'app/blocks/**/*.html'],
+        files: ['app/templates/**/*.{html,mustache}', 'app/blocks/**/*.{html,mustache}'],
         tasks: ['hogan:dev']
       },
       concat: {
@@ -119,8 +119,12 @@ module.exports = function (grunt) {
       }
     },
     usemin: {
-      html: ['dist/*.html'],
-      css: ['dist/styles/{,*/}*.css', 'dist/blocks/**/*.css'],
+      html: ['dist/*.{html,mustache}'],
+      css: [
+        'dist/styles/{,*/}*.css',
+        'dist/blocks/**/*.css',
+        'dist/static/**/*.css'
+      ],
       options: {
         dirs: ['dist']
       }
@@ -143,7 +147,11 @@ module.exports = function (grunt) {
           {
             expand: true,
             cwd: '.tmp',
-            src: ['styles/{,*/}*.css', 'blocks/**/*.css'],
+            src: [
+              'styles/{,*/}*.css',
+              'blocks/**/*.css',
+              'static/**/*.css'
+            ],
             dest: '.tmp'
           }
         ]
@@ -155,7 +163,11 @@ module.exports = function (grunt) {
           {
             expand: true,
             cwd: '.tmp',
-            src: ['styles/{,*/}*.css', 'blocks/**/*.css', 'static/**/*.css'],
+            src: [
+              'styles/{,*/}*.css',
+              'blocks/**/*.css',
+              'static/**/*.css'
+            ],
             dest: 'dist'
           }
         ],
@@ -180,7 +192,11 @@ module.exports = function (grunt) {
           {
             expand: true,
             cwd: 'app',
-            src: ['templates/**/*.html', 'blocks/**/*.html', 'static/**/*.html'],
+            src: [
+              'templates/**/*.{html,mustache}',
+              'blocks/**/*.{html,mustache}',
+              'static/**/*.html'
+            ],
             dest: 'dist'
           }
         ]
@@ -289,7 +305,7 @@ module.exports = function (grunt) {
               '.htaccess',
               'images/{,*/}*',
               '*.manifest',
-              '**/*.html',
+              '**/*.{html,mustache}',
               'fonts/**/**',
               'scripts/**/*',
               '!bower_components/**',
@@ -317,12 +333,15 @@ module.exports = function (grunt) {
     },
     hogan: {
       dev: {
-        templates: ['app/blocks/**/*.html', 'app/templates/**/*.html'],
+        templates: [
+          'app/blocks/**/*.{html,mustache}',
+          'app/templates/**/*.{html,mustache}'
+        ],
         output: '.tmp/scripts/dev/dev-templates.js',
         binderName: 'hulk'
       },
       dist: {
-        templates: 'app/blocks/**/*_c.html',
+        templates: 'app/blocks/**/*_c.{html,mustache}',
         output: '.tmp/scripts/dist-templates.js',
         binderName: 'hulk'
       }
@@ -335,18 +354,42 @@ module.exports = function (grunt) {
       }
     },
     concurrent: {
-      server: ['concat:fish', 'compass', 'hogan'],
-      dist: ['compass', 'imagemin', 'htmlmin', 'svgmin', 'hogan'],
-      wdist: ['compass', 'hogan']
+      server: [
+        'concat:fish',
+        'compass',
+        'hogan'
+      ],
+      dist: [
+        'compass',
+        'imagemin',
+        'htmlmin',
+        'svgmin',
+        'hogan'
+      ],
+      wdist: [
+        'compass',
+        'hogan'
+      ]
     }
   });
 
 
   grunt.registerTask('server', 'Starting local server with watch task.', function (target) {
     if (target === 'dist') {
-      return grunt.task.run(['build', 'open:local', 'connect:dist:keepalive']);
+      return grunt.task.run([
+        'build',
+        'open:local',
+        'connect:dist:keepalive'
+      ]);
     }
-    return grunt.task.run(['clean:server', 'concurrent:server', 'autoprefixer', 'connect:livereload', 'open:local', 'watch']);
+    return grunt.task.run([
+      'clean:server',
+      'concurrent:server',
+      'autoprefixer',
+      'connect:livereload',
+      'open:local',
+      'watch'
+    ]);
   });
 
   grunt.registerTask('build', 'Builds project.',
@@ -418,7 +461,7 @@ module.exports = function (grunt) {
     CCName = name.replace(/-([a-z])/g, function (g) {
       return g[1].toUpperCase();
     });
-    grunt.file.write('app/blocks/b-' + name + '/b-' + name + '.html', '<div class="b-' + name + '">\n\n  \n\n</div>');
+    grunt.file.write('app/blocks/b-' + name + '/b-' + name + '.mustache', '<div class="b-' + name + '">\n\n  \n\n</div>');
     grunt.file.write('app/blocks/b-' + name + '/_b-' + name + '.sass', '.b-' + name);
     grunt.file.write('app/blocks/b-' + name + '/b-' + name + '.js', '$(function() {\n  \n});');
     grunt.file.write('app/blocks/b-' + name + '/b-' + name + '_fish.js', 'gBlocks.b' + (CCName.charAt(0).toUpperCase() + CCName.slice(1)) + ' = {\n   \n};');
