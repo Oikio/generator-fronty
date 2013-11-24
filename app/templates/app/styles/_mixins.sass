@@ -1,10 +1,40 @@
 =for ($media)
-  @if $media == small
-    @media #{$small}
+  @if $media == screen
+    @media #{$screen}
       @content
-  @if $media == medium
-    @media #{$medium}
+  @if $media == landscape
+    @media #{$landscape}
       @content
-  @if $media == large
-    @media #{$large}
+  @if $media == portrait
+    @media #{$portrait}
+      @content
+  @if $media == small-up
+    @media #{$small-up}
+      @content
+  @if $media == small-only
+    @media #{$small-only}
+      @content
+  @if $media == medium-up
+    @media #{$medium-up}
+      @content
+  @if $media == medium-only
+    @media #{$medium-only}
+      @content
+  @if $media == large-up
+    @media #{$large-up}
+      @content
+  @if $media == large-only
+    @media #{$large-only}
+      @content
+  @if $media == xlarge-up
+    @media #{$xlarge-up}
+      @content
+  @if $media == xlarge-only
+    @media #{$xlarge-only}
+      @content
+  @if $media == xxlarge-up
+    @media #{$xxlarge-up}
+      @content
+  @if $media == xxlarge-only
+    @media #{$xxlarge-only}
       @content

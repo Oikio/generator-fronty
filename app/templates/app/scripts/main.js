@@ -1,3 +1,7 @@
+$(document).foundation();
+
 $(function() {
+
+
 
 });

@@ -11,22 +11,17 @@
     <link rel="stylesheet" href="styles/all.css">
 
     <!-- build:js scripts/utilities.js -->
-    <script type="text/javascript" src="scripts/vendor/modernizr.min.js"></script>
+    <script src="bower_components/modernizr/modernizr.js"></script>
     <!-- endbuild -->
 </head>
+
 <body>
 
 <div class="w-layout"></div>
 
-<script type="text/javascript" src="http://code.jquery.com/jquery-2.0.3.min.js"></script>
-<script type="text/javascript">
-    if (!window.jQuery) {
-        document.write('<script src="scripts/fallbacks/jquery-2.0.3.min.js"><\/script>');
-    }
-</script>
-
 <!-- build:js scripts/main.js -->
-<% if (stuff.foundation) { %><script type="text/javascript" src="bower_components/foundation/js/foundation/foundation.js"></script><% } %>
+<script type="text/javascript" src="bower_components/jquery/jquery.js"></script>
+<script type="text/javascript" src="bower_components/foundation/js/foundation/foundation.js"></script>
 <script type="text/javascript" src="scripts/main.js"></script>
 <!-- endbuild -->
 
@@ -49,7 +44,7 @@
 </script>
 
 <!-- build:js scripts/dev/hogan.js -->
-<script type="text/javascript" src="scripts/vendor/hogan-2.0.0.min.js"></script>
+<script type="text/javascript" src="bower_components\hogan\web\builds\2.0.0\hogan-2.0.0.js"></script>
 <!-- endbuild -->
 
 <!-- build:js(.tmp) scripts/dev/fish.js -->
@@ -63,7 +58,8 @@
 <script type="text/javascript" src="scripts/dev/protonav.js"></script>
 <!-- endbuild -->
 
-<!--<script src="http://localhost:35729/livereload.js"></script>-->
+<!--<script src="http://192.168.1.5:35729/livereload.js"></script>-->
+<!--<script src="http://192.168.1.5:8080/target/target-script-min.js#anonymous"></script>-->
 
 <script type="text/javascript">
     var name = 'main';

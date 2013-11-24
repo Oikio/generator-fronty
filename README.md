@@ -44,6 +44,7 @@ grunt static:name # add static page
 * add tests
 
 ## Release History
+* 2.0.0 Foundation 5 is here and set by default
 * 1.2.0 .html files changed to .mustache, minor fixes inf gruntfile
 * 1.1.0 Static pages added, code refactoring done
 * 1.0.0 Here is Fronty!

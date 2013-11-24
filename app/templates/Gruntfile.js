@@ -89,9 +89,9 @@ module.exports = function (grunt) {
         sassDir: 'app/styles',
         cssDir: '.tmp/styles',
         imagesDir: 'app/images',
-        javascriptsDir: '.tmp/scripts',
+        javascriptsDir: 'app/scripts',
         fontsDir: 'app/fonts',
-        importPath: ['app/bower_components', 'app/blocks'],
+//        importPath: ['app/bower_components', 'app/blocks'],
         relativeAssets: false,
         config: 'compass.rb'
       },
@@ -474,7 +474,7 @@ module.exports = function (grunt) {
   });
 
   grunt.registerTask('static', 'Adds static page in "static" folder', function (name) {
-    grunt.file.write('app/static/' + name + '/' + name + '.html', '<!DOCTYPE html>\n<html lang="ru">\n<head>\n    <meta charset="utf-8">\n    <meta name="viewport" content="width=device-width, initial-scale=1.0">\n    <meta name="description" content="">\n    <link type="image/x-icon" rel="shortcut icon" href="../../favicon.ico"/>\n\n    <title></title>\n\n    <link rel="stylesheet" href="name.css">\n\n</head>\n<body>\n\n<div class="w-layout">\n\n\n\n\n\n</div>\n\n<!--<script type="text/javascript" src="http://code.jquery.com/jquery-2.0.3.min.js"></script>\n<script type="text/javascript">\n    if (!window.jQuery) {\n        document.write(\'<script src="../../scripts/fallbacks/jquery-2.0.3.min.js"><\\/script>\');\n    }\n</script>-->\n\n<!-- build:js static/name/name.js -->\n<script type="text/javascript" src="name.js"></script>\n<!-- endbuild -->\n\n</body>\n\n</html>');
+    grunt.file.write('app/static/' + name + '/' + name + '.html', '<!DOCTYPE html>\n<html lang="ru">\n<head>\n    <meta charset="utf-8">\n    <meta name="viewport" content="width=device-width, initial-scale=1.0">\n    <meta name="description" content="">\n    <link type="image/x-icon" rel="shortcut icon" href="../../favicon.ico"/>\n\n    <title></title>\n\n    <link rel="stylesheet" href="pageName.css">\n\n    <!-- build:js static/pageName/utilities.js -->\n    <script src="../../bower_components/modernizr/modernizr.js"></script>\n    <!-- endbuild -->\n\n</head>\n<body>\n\n<div class="w-layout">\n\n\n\n\n\n</div>\n\n<!-- build:js static/pageName/pageName.js -->\n<script type="text/javascript" src="../../bower_components/jquery/jquery.js"></script>\n<script type="text/javascript" src="pageName.js"></script>\n<!-- endbuild -->\n\n</body>\n\n</html>');
     grunt.file.write('app/static/' + name + '/' + name + '.sass', '');
     grunt.file.write('app/static/' + name + '/' + name + '.js', '');
   });

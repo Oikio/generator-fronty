@@ -28,38 +28,21 @@ FrontsterGenerator.prototype.askFor = function askFor() {
       message: 'What is the name of your project?',
       default: 'Project'
     },
-    {
-      type: 'checkbox',
-      name: 'stuff',
-      message: 'What stuff do you need?',
-      choices: [
-        {
-          name: 'Foundation 4',
-          value: 'foundation',
-          checked: true
-        },
-        {
-          name: 'Backend will be on CMS Concrete5',
-          value: 'concrete',
-          checked: false
-        },
-        {
-          name: 'Fixed website',
-          value: 'fixed',
-          checked: false
-        }
-      ]
-    }
+//    {
+//      type: 'checkbox',
+//      name: 'stuff',
+//      message: 'What stuff do you need?',
+//      choices: []
+//    }
   ];
 
   this.prompt(prompts, function (props) {
-    var _self = this;
+//    var _self = this;
     this.projectName = props.projecName;
-    this.stuff = {};
-    props.stuff.forEach(function (el) {
-      _self.stuff[el] = true;
-    });
-    console.log(this.stuff);
+//    this.stuff = {};
+//    props.stuff.forEach(function (el) {
+//      _self.stuff[el] = true;
+//    });
 
     cb();
   }.bind(this));
