@@ -9,7 +9,7 @@ module.exports = function (grunt) {
       options: {
         livereload: true
       },
-      compass: {
+      sass: {
         options: {
           spawn: false
         },
@@ -19,7 +19,7 @@ module.exports = function (grunt) {
           'app/blocks/**/*.{scss,sass}',
           'app/static/**/*.{scss,sass}'
         ],
-        tasks: ['compass', 'autoprefixer']
+        tasks: ['sass', 'autoprefixer']
       },
       livereload: {
         options: {
@@ -84,29 +84,36 @@ module.exports = function (grunt) {
       },
       server: '.tmp'
     },
-    compass: {
+    sass: {
       options: {
-        sassDir: 'app/styles',
-        cssDir: '.tmp/styles',
-        imagesDir: 'app/images',
-        javascriptsDir: 'app/scripts',
-        fontsDir: 'app/fonts',
-//        importPath: ['app/bower_components', 'app/blocks'],
-        relativeAssets: false,
-        config: 'compass.rb'
+        includePaths: ['app/bower_components/foundation/scss']
       },
-      styles: {},
-      blocks: {
-        options: {
-          sassDir: 'app/blocks',
-          cssDir: '.tmp/blocks'
+      main: {
+        files: {
+          '.tmp/styles/all.css': 'app/styles/all.scss'
         }
+      },
+      blocks: {
+        files: [
+          {
+            expand: true,
+            cwd: 'app/blocks/',
+            src: ['**/!(_)*.scss'],
+            dest: '.tmp/blocks/',
+            ext: '.css'
+          }
+        ]
       },
       static: {
-        options: {
-          sassDir: 'app/static',
-          cssDir: '.tmp/static'
-        }
+        files: [
+          {
+            expand: true,
+            cwd: 'app/static/',
+            src: ['**/!(_)*.scss'],
+            dest: '.tmp/static/',
+            ext: '.css'
+          }
+        ]
       }
     },
     useminPrepare: {
@@ -293,7 +300,7 @@ module.exports = function (grunt) {
           }
         ]
       },
-      wdist: {
+      prebuild: {
         files: [
           {
             expand: true,
@@ -307,7 +314,6 @@ module.exports = function (grunt) {
               '*.manifest',
               '**/*.{html,mustache}',
               'fonts/**/**',
-              'scripts/**/*',
               '!bower_components/**',
               'blocks/**/*.js',
               '!blocks/**/*_fish.js'
@@ -315,7 +321,7 @@ module.exports = function (grunt) {
           }
         ]
       },
-      wdistTmp: {
+      prebuildTmp: {
         files: [
           {
             expand: true,
@@ -356,18 +362,18 @@ module.exports = function (grunt) {
     concurrent: {
       server: [
         'concat:fish',
-        'compass',
+        'sass',
         'hogan'
       ],
       dist: [
-        'compass',
+        'sass',
         'imagemin',
         'htmlmin',
         'svgmin',
         'hogan'
       ],
-      wdist: [
-        'compass',
+      prebuild: [
+        'sass',
         'hogan'
       ]
     }
@@ -411,12 +417,12 @@ module.exports = function (grunt) {
     [
       'clean:dist',
       'useminPrepare',
-      'concurrent:wdist',
+      'concurrent:prebuild',
       'autoprefixer',
       'concat',
       'uglify',
-      'copy:wdist',
-      'copy:wdistTmp',
+      'copy:prebuild',
+      'copy:prebuildTmp',
       'usemin'
     ]
   );
@@ -441,41 +447,41 @@ module.exports = function (grunt) {
   var updateBlockList = function () {
     var paths = '';
     grunt.file.recurse('app/blocks/', function (abspath, rootdir, subdir, filename) {
-      if (abspath.search(/_.*\.sass/) > -1) {
+      if (abspath.search(/_.*\.scss/) > -1) {
         var sassImportPath;
         sassImportPath = abspath.slice(abspath.search('/b-') + 1, -5);
-        return paths += '@import "../blocks/' + sassImportPath + '"\n';
+        return paths += '@import "../blocks/' + sassImportPath + '";\n';
       }
     });
     grunt.log.subhead('Sass blocks list updated:'.yellow);
     grunt.log.writeln(paths);
-    return grunt.file.write('app/styles/_blocks.sass', paths);
+    return grunt.file.write('app/styles/_blocks.scss', paths);
   };
 
-  grunt.registerTask('updateBlockList', 'Updates list of sass blocks in blocks.sass.', function () {
+  grunt.registerTask('updateBlockList', 'Updates list of sass blocks in blocks.scss.', function () {
     updateBlockList();
   });
 
-  grunt.registerTask('addB', 'Adds block in blocks folder and updates block.sass.', function (name) {
+  grunt.registerTask('addB', 'Adds block in blocks folder and updates block.scss.', function (name) {
     var CCName;
     CCName = name.replace(/-([a-z])/g, function (g) {
       return g[1].toUpperCase();
     });
     grunt.file.write('app/blocks/b-' + name + '/b-' + name + '.mustache', '<div class="b-' + name + '">\n\n  \n\n</div>');
-    grunt.file.write('app/blocks/b-' + name + '/_b-' + name + '.sass', '.b-' + name);
+    grunt.file.write('app/blocks/b-' + name + '/_b-' + name + '.scss', '.b-' + name + ' {}');
     grunt.file.write('app/blocks/b-' + name + '/b-' + name + '.js', '$(function() {\n  \n});');
     grunt.file.write('app/blocks/b-' + name + '/b-' + name + '_fish.js', 'gBlocks.b' + (CCName.charAt(0).toUpperCase() + CCName.slice(1)) + ' = {\n   \n};');
     updateBlockList();
   });
 
-  grunt.registerTask('removeB', 'Removes block in blocks folder and updates block.sass.', function (name) {
+  grunt.registerTask('removeB', 'Removes block in blocks folder and updates block.scss.', function (name) {
     grunt.file['delete']('app/blocks/b-' + name);
     updateBlockList();
   });
 
   grunt.registerTask('static', 'Adds static page in "static" folder', function (name) {
     grunt.file.write('app/static/' + name + '/' + name + '.html', '<!DOCTYPE html>\n<html lang="ru">\n<head>\n    <meta charset="utf-8">\n    <meta name="viewport" content="width=device-width, initial-scale=1.0">\n    <meta name="description" content="">\n    <link type="image/x-icon" rel="shortcut icon" href="../../favicon.ico"/>\n\n    <title></title>\n\n    <link rel="stylesheet" href="pageName.css">\n\n    <!-- build:js static/pageName/utilities.js -->\n    <script src="../../bower_components/modernizr/modernizr.js"></script>\n    <!-- endbuild -->\n\n</head>\n<body>\n\n<div class="w-layout">\n\n\n\n\n\n</div>\n\n<!-- build:js static/pageName/pageName.js -->\n<script type="text/javascript" src="../../bower_components/jquery/jquery.js"></script>\n<script type="text/javascript" src="pageName.js"></script>\n<!-- endbuild -->\n\n</body>\n\n</html>');
-    grunt.file.write('app/static/' + name + '/' + name + '.sass', '');
+    grunt.file.write('app/static/' + name + '/' + name + '.scss', '');
     grunt.file.write('app/static/' + name + '/' + name + '.js', '');
   });
 
