@@ -47,6 +47,6 @@ grunt static:name # add static page
 ## Release History
 * 2.1.0 Compass and Ruby Sass changed to node-sass (it's really fast 5-10x)
 * 2.0.0 Foundation 5 is here and set by default
-* 1.2.0 .html files changed to .mustache, minor fixes inf gruntfile
+* 1.2.0 .html files changed to .mustache, minor fixes in gruntfile
 * 1.1.0 Static pages added, code refactoring done
 * 1.0.0 Here is Fronty!
