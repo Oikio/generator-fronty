@@ -68,7 +68,6 @@ FrontsterGenerator.prototype.app = function app() {
 
   this.template('_bower.json', 'bower.json');
   this.template('_package.json', 'package.json');
-  this.template('_compass.rb', 'compass.rb');
   this.template('Gruntfile.js', 'Gruntfile.js');
   this.template('app/index.html', 'app/index.html');
 };
