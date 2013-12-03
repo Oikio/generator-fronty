@@ -5,8 +5,7 @@
 // is - statement
 // i - include HTML
 // s or [data-*] - has class script
-// %d - decorators placeholders
-// mod - modificator for modernizr and etc
+// p - particles from placeholders and mixins
 // a - area
 
 
@@ -16,6 +15,7 @@
 @import "helpers";
 @import "palette";
 @import "foundation-settings";
+$include-open-sans: false;
 
 
 // Foundation
@@ -59,7 +59,7 @@
 // Vendor
 
 
-// Decorators
+// Particles
 
 
 // Sprites
@@ -69,7 +69,6 @@
 // Global
 @import "animations";
 @import "global";
-@import "global-queries";
 
 
 // Blocks

@@ -6,25 +6,15 @@
     <meta name="description" content="">
     <link type="image/x-icon" rel="shortcut icon" href="favicon.ico"/>
 
-    <title><%= _.slugify(projectName) %></title>
+    <title>collector</title>
 
     <link rel="stylesheet" href="styles/all.css">
 
-    <!-- build:js scripts/utilities.js -->
-    <script src="bower_components/modernizr/modernizr.js"></script>
-    <!-- endbuild -->
 </head>
 
 <body>
 
 <div class="w-layout"></div>
-
-<!-- build:js scripts/main.js -->
-<script type="text/javascript" src="bower_components/jquery/jquery.js"></script>
-<script type="text/javascript" src="bower_components/foundation/js/foundation/foundation.js"></script>
-<script type="text/javascript" src="scripts/main.js"></script>
-<!-- endbuild -->
-
 
 <!------------------------------------------ Dev tools ------------------------------------------>
 
@@ -42,6 +32,8 @@
     gFish.partials = {};
     window.gBlocks = {};
 </script>
+
+<script type="text/javascript" src="bower_components/jquery/jquery.js"></script>
 
 <!-- build:js scripts/dev/hogan.js -->
 <script type="text/javascript" src="bower_components\hogan\web\builds\2.0.0\hogan-2.0.0.js"></script>

@@ -28,23 +28,20 @@ grunt static:name # add static page
 * 3 double taps with two fingers
 
 ### Dependencies:
-* Ruby:
-    * Sass
-    * Compass
-    * Foundation (optional)
 * Node.js:
     * Grunt-cli
     * Bower
-    * bower
 
 ### TODO
 * Change fastClick.js in foudnation to external dependency when they remove it from fw source.
+* Make Hogan build pages util
 * rewrite protonav
 * update imagemin, still get error "building is not supported on win32", because of node-jpegtran-bin.
 * make second UseminPrepare task with no minification (2.0 throws error, waiting for npm publish)
 * add tests
 
 ## Release History
+* 2.2.0 Collector.html helps you construct static layout from mustache templates.
 * 2.1.0 Compass and Ruby Sass changed to node-sass (it's really fast 5-10x)
 * 2.0.0 Foundation 5 is here and set by default
 * 1.2.0 .html files changed to .mustache, minor fixes in gruntfile

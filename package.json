@@ -1,6 +1,6 @@
 {
   "name": "generator-fronty",
-  "version": "2.1.1",
+  "version": "2.2.0",
   "description": "Website boilerplate generator for yeoman",
   "keywords": [
     "yeoman-generator"
