@@ -202,8 +202,7 @@ module.exports = function (grunt) {
             cwd: 'app',
             src: [
               'templates/**/*.{html,mustache}',
-              'blocks/**/*.{html,mustache}',
-              'static/**/*.html'
+              'blocks/**/*.{html,mustache}'
             ],
             dest: 'dist'
           }
@@ -214,7 +213,10 @@ module.exports = function (grunt) {
           {
             expand: true,
             cwd: 'app',
-            src: '*.html',
+            src: [
+              '*.html',
+              'static/**/*.html'
+            ],
             dest: 'dist'
           }
         ]

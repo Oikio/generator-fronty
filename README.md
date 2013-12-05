@@ -33,8 +33,8 @@ grunt static:name # add static page
     * Bower
 
 ### TODO
-* Change fastClick.js in foudnation to external dependency when they remove it from fw source.
-* Make Hogan build pages util
+* change fastClick.js in foudnation to external dependency when they remove it from source.
+* make Hogan build pages util
 * rewrite protonav
 * update imagemin, still get error "building is not supported on win32", because of node-jpegtran-bin.
 * make second UseminPrepare task with no minification (2.0 throws error, waiting for npm publish)
