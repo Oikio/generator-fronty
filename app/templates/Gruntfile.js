@@ -1,3 +1,5 @@
+var localIP = '192.168.1.5';
+var lrsnippet = require('connect-livereload')();
 var mountFolder = function (connect, dir) {
   return connect.static(require('path').resolve(dir));
 };
@@ -6,9 +8,16 @@ module.exports = function (grunt) {
   require('matchdep').filterDev('grunt-*').forEach(grunt.loadNpmTasks);
   grunt.initConfig({
     watch: {
-      options: {
-        livereload: true
-      },
+      options: {},
+//      livereload: {
+//        options: {
+//          livereload: true
+//        },
+//        files: [
+//          'app/fonts/**/*',
+//          'app/images/{,*/}*.{png,jpg,jpeg,gif,webp,svg,apng}'
+//        ]
+//      },
       sass: {
         options: {
           spawn: false
@@ -20,19 +29,6 @@ module.exports = function (grunt) {
           'app/static/**/*.{scss,sass}'
         ],
         tasks: ['sass', 'autoprefixer']
-      },
-      livereload: {
-        options: {
-          livereload: true
-        },
-        files: [
-          'app/*.{html,mustache}',
-          '{app}/fonts/**/*',
-          'app/images/{,*/}*.{png,jpg,jpeg,gif,webp,svg}',
-          'app/scripts/**/*.js',
-          '.tmp/test/*.js',
-          'app/static/**/*.{html,js}'
-        ]
       },
       hogan: {
         options: {
@@ -47,6 +43,34 @@ module.exports = function (grunt) {
         },
         files: ['app/blocks/**/*_fish.js'],
         tasks: ['concat:fish']
+      }
+    },
+    browser_sync: {
+      files: {
+        src: [
+          '.tmp/**/*.css',
+          '.tmp/**/*.js',
+          'app/scripts/*.js',
+          'app/blocks/**/*.js',
+          '!app/blocks/**/*_fish.js',
+          '**/*.html',
+          'app/fonts/**/*',
+          'app/images/{,*/}*.{png,jpg,jpeg,gif,webp,svg,apng}',
+          'app/static/**/*.{html,js}',
+          'app/bower_components/**/*'
+        ]
+      },
+      options: {
+        watchTask: true,
+        host: localIP,
+        ghostMode: {
+          scroll: true,
+          links: true,
+          forms: true
+        }
+//        server: {
+//          baseDir: 'app'
+//        }
       }
     },
     connect: {
@@ -64,14 +88,9 @@ module.exports = function (grunt) {
       dist: {
         options: {
           middleware: function (connect) {
-            return [mountFolder(connect, 'test'), mountFolder(connect, 'dist')];
+            return [lrsnippet, mountFolder(connect, 'test'), mountFolder(connect, 'dist')];
           }
         }
-      }
-    },
-    open: {
-      local: {
-        path: 'http://localhost:9000'
       }
     },
     clean: {
@@ -383,26 +402,25 @@ module.exports = function (grunt) {
   });
 
 
-  grunt.registerTask('server', 'Starting local server with watch task.', function (target) {
-    if (target === 'dist') {
-      return grunt.task.run([
-        'build',
-        'open:local',
-        'connect:dist:keepalive'
-      ]);
-    }
-    return grunt.task.run([
+  grunt.registerTask('server', 'Starting local server with watch task.', function () {
+    grunt.task.run([
       'clean:server',
       'concurrent:server',
       'autoprefixer',
       'connect:livereload',
-      'open:local',
+      'browser_sync',
       'watch'
     ]);
   });
 
-  grunt.registerTask('build', 'Builds project.',
-    [
+  grunt.registerTask('build', 'Builds project.', function (target) {
+    if (target === 'server') {
+      return grunt.task.run([
+        'build',
+        'connect:dist:keepalive'
+      ]);
+    }
+    grunt.task.run([
       'clean:dist',
       'useminPrepare',
       'concurrent:dist',
@@ -412,8 +430,8 @@ module.exports = function (grunt) {
       'uglify',
       'copy:dist',
       'usemin'
-    ]
-  );
+    ]);
+  });
   grunt.registerTask('default', ['build']);
 
   grunt.registerTask('prebuild', 'Builds project with no minification.',
@@ -439,10 +457,18 @@ module.exports = function (grunt) {
         tasks: ['prebuild']
       }
     });
+
     if (target === 'server') {
-      return grunt.task.run(['prebuild', 'connect:dist', 'open:local', 'watch']);
+      return grunt.task.run([
+        'prebuild',
+        'connect:dist',
+        'watch'
+      ]);
     } else {
-      return grunt.task.run(['prebuild', 'watch']);
+      return grunt.task.run([
+        'prebuild',
+        'watch'
+      ]);
     }
   });
 
@@ -483,7 +509,7 @@ module.exports = function (grunt) {
   });
 
   grunt.registerTask('static', 'Adds static page in "static" folder', function (name) {
-    grunt.file.write('app/static/' + name + '/' + name + '.html', '<!DOCTYPE html>\n<html lang="ru">\n<head>\n    <meta charset="utf-8">\n    <meta name="viewport" content="width=device-width, initial-scale=1.0">\n    <meta name="description" content="">\n    <link type="image/x-icon" rel="shortcut icon" href="/favicon.ico"/>\n\n    <title></title>\n\n    <link rel="stylesheet" href="/static/pageName/pageName.css">\n\n    <!-- build:js /static/pageName/utilities.js -->\n    <script src="/bower_components/modernizr/modernizr.js"></script>\n    <!-- endbuild -->\n\n</head>\n<body>\n\n<div class="w-layout">\n\n\n\n\n\n</div>\n\n<!-- build:js /static/pageName/pageName.js -->\n<script type="text/javascript" src="/bower_components/jquery/jquery.js"></script>\n<script type="text/javascript" src="/static/pageName/pageName.js"></script>\n<!-- endbuild -->\n\n</body>\n\n</html>');
+    grunt.file.write('app/static/' + name + '/index.html', '<!DOCTYPE html>\n<html lang="ru">\n<head>\n    <meta charset="utf-8">\n    <meta name="viewport" content="width=device-width, initial-scale=1.0">\n    <meta name="description" content="">\n    <link type="image/x-icon" rel="shortcut icon" href="/favicon.ico"/>\n\n    <title></title>\n\n    <link rel="stylesheet" href="/static/pageName/pageName.css">\n\n    <!-- build:js /static/pageName/utilities.js -->\n    <script src="/bower_components/modernizr/modernizr.js"></script>\n    <!-- endbuild -->\n\n</head>\n<body>\n\n<div class="w-layout">\n\n\n\n\n\n</div>\n\n<!-- build:js /static/pageName/pageName.js -->\n<script type="text/javascript" src="/bower_components/jquery/jquery.js"></script>\n<script type="text/javascript" src="/static/pageName/pageName.js"></script>\n<!-- endbuild -->\n\n<!--<script src="http://192.168.1.5:8080/target/target-script-min.js#anonymous"></script>-->\n<script src="http://192.168.1.5:3000/socket.io/socket.io.js"></script>\n<script src="http://192.168.1.5:3001/browser-sync-client.min.js"></script>\n\n</body>\n\n</html>');
     grunt.file.write('app/static/' + name + '/' + name + '.scss', '');
     grunt.file.write('app/static/' + name + '/' + name + '.js', '');
   });

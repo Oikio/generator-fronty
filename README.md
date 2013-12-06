@@ -12,8 +12,8 @@ yo fronty
 ### Commands:
 ``` bash
 grunt [build] # build project
+grunt build:server # build and load server
 grunt server # connect server with livereload for prototyping
-grunt server:dist # build and load server
 grunt prebuild # fast build with no minification for debugging
 grunt wPre # prebuild with watch
 grunt wPre:server # prebuild with watch and server
@@ -41,6 +41,7 @@ grunt static:name # add static page
 * add tests
 
 ## Release History
+* 2.3.0 Watch expanded with browser-sync.
 * 2.2.0 Collector.html helps you construct static layout from mustache templates.
 * 2.1.0 Compass and Ruby Sass changed to node-sass (it's really fast 5-10x)
 * 2.0.0 Foundation 5 is here and set by default

@@ -58,15 +58,16 @@
 <script type="text/javascript" src="scripts/dev/protonav.js"></script>
 <!-- endbuild -->
 
-<!--<script src="http://192.168.1.5:35729/livereload.js"></script>-->
-<!--<script src="http://192.168.1.5:8080/target/target-script-min.js#anonymous"></script>-->
-
 <script type="text/javascript">
     var name = 'main';
     var context = 'main';
     protoRender(localStorage.getItem('defaultProto') || name, localStorage.getItem('defaultFish') || context);
 //    protoRender(name, context);
 </script>
+
+<script src="http://192.168.1.5:3000/socket.io/socket.io.js"></script>
+<script src="http://192.168.1.5:3001/browser-sync-client.min.js"></script>
+<!--<script src="http://192.168.1.5:8080/target/target-script-min.js#anonymous"></script>-->
 
 
 <!------------------------------------------ End of Dev tools ------------------------------------------>
