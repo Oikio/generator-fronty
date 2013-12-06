@@ -17,7 +17,7 @@ grunt server # connect server with livereload for prototyping
 grunt prebuild # fast build with no minification for debugging
 grunt wPre # prebuild with watch
 grunt wPre:server # prebuild with watch and server
-grunt addB:name # add block with html,sass,coffee files and add it to styles/_blocks.sass
+grunt addB:name # add block with html,sass files and add it to styles/_blocks.sass
 grunt removeB:name # remove block
 grunt updateBlockList # updates blocks.sass
 grunt static:name # add static page
