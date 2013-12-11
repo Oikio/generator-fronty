@@ -17,7 +17,7 @@ It's something like Atomic Design and BEM principles I use in HTML\CSS part:
 * For reusable styling use particles (atoms).
 * Separate styles and scripts, use data-* attributes for logic and classes for styling. (But if DOM manipulation perfomance matters, you know what to do by yourself)
 
-Naming:
+#### Naming:
 ``` SCSS
 .block-name {};
 .block-name__element-name {};
@@ -30,7 +30,8 @@ Naming:
   &.modificator {}
 };
 ```
-Block to block modificators:
+
+#### Block to block modificators:
 ``` SCSS
 // Option 1.
 // parent-block.scss
@@ -68,7 +69,7 @@ Block to block modificators:
 }
 ```
 
-Particles (atoms) concept:
+#### Particles (atoms) concept:
 ``` SCSS
 @mixin particle-name () {
     margin: 1em 0
@@ -82,7 +83,7 @@ Particles (atoms) concept:
 }
 ```
 
-Install:
+### Install:
 ``` bash
 npm install -g generator-fronty
 cd myProjectFolder
