@@ -1,7 +1,8 @@
 <!DOCTYPE html>
-<html lang="ru">
+<html lang="ru" class="no-js">
 <head>
     <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="description" content="">
     <link type="image/x-icon" rel="shortcut icon" href="favicon.ico"/>
@@ -17,7 +18,7 @@
 
 <body>
 
-<div class="w-layout"></div>
+<div class="layout"></div>
 
 <!-- build:js scripts/main.js -->
 <script type="text/javascript" src="bower_components/jquery/jquery.js"></script>
@@ -43,26 +44,21 @@
     window.gBlocks = {};
 </script>
 
-<!-- build:js scripts/dev/hogan.js -->
+
+<!-- build:js({.tmp,app}) scripts/dev/dev.js -->
 <script type="text/javascript" src="bower_components\hogan\web\builds\2.0.0\hogan-2.0.0.js"></script>
-<!-- endbuild -->
-
-<!-- build:js(.tmp) scripts/dev/fish.js -->
 <script type="text/javascript" src="scripts/dev/fish_blocks.js"></script>
-<script type="text/javascript" src="scripts/dist-templates.js"></script>
+<script type="text/javascript" src="scripts/dev/dev-blocks.js"></script>
 <script type="text/javascript" src="scripts/dev/dev-templates.js"></script>
-<!-- endbuild -->
-
-<!-- build:js scripts/dev/dev.js -->
 <script type="text/javascript" src="scripts/dev/fish_groups.js"></script>
 <script type="text/javascript" src="scripts/dev/protonav.js"></script>
 <!-- endbuild -->
 
 <script type="text/javascript">
-    var name = 'main';
+    var templateName = 'main';
     var context = 'main';
-    protoRender(localStorage.getItem('defaultProto') || name, localStorage.getItem('defaultFish') || context);
-//    protoRender(name, context);
+    protoRender(localStorage.getItem('defaultProto') || templateName, localStorage.getItem('defaultFish') || context);
+    //    protoRender(name, context);
 </script>
 
 <script src="http://192.168.1.5:3000/socket.io/socket.io.js"></script>
@@ -71,7 +67,6 @@
 
 
 <!------------------------------------------ End of Dev tools ------------------------------------------>
-
 
 </body>
 

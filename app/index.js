@@ -55,7 +55,7 @@ FrontsterGenerator.prototype.app = function app() {
   this.mkdir('app/images');
   this.mkdir('app/images/fish');
   this.mkdir('app/styles/types');
-  this.mkdir('app/styles/decorators');
+  this.mkdir('app/styles/particles');
   this.mkdir('app/templates');
 
   this.directory('app/blocks', 'app/blocks');

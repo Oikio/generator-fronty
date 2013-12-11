@@ -1,3 +1,0 @@
-gBlocks.bFooter = {
-   
-};

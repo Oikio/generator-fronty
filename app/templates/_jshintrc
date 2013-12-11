@@ -23,6 +23,10 @@
   "yui": true,
   "globals": {
     "gFish": false,
-    "gBlocks": false
+    "gBlocks": false,
+    "devTemplates": false,
+    "devBlocks": false,
+    "templates": false,
+    "clone": false
   }
 }
