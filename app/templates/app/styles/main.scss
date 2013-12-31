@@ -1,6 +1,5 @@
 @charset "UTF-8";
 // i - include HTML
-// p - particles from placeholders and mixins
 
 // Vars
 @import "vars";
@@ -9,6 +8,8 @@
 @import "palette";
 @import "foundation-settings";
 $include-open-sans: false;
+
+// Fonts
 
 
 // Foundation
@@ -66,9 +67,6 @@ $include-open-sans: false;
 
 // Blocks
 @import "blocks";
-
-
-// Types
 
 
 // Framework tweaks

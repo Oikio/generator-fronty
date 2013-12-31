@@ -27,7 +27,7 @@ FrontsterGenerator.prototype.askFor = function askFor() {
       name: 'projecName',
       message: 'What is the name of your project?',
       default: 'Project'
-    },
+    }
 //    {
 //      type: 'checkbox',
 //      name: 'stuff',
@@ -70,6 +70,7 @@ FrontsterGenerator.prototype.app = function app() {
   this.template('_package.json', 'package.json');
   this.template('Gruntfile.js', 'Gruntfile.js');
   this.template('app/index.html', 'app/index.html');
+  this.template('app/collector.html', 'app/collector.html');
 };
 
 FrontsterGenerator.prototype.projectfiles = function projectfiles() {

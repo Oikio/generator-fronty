@@ -1,4 +1,4 @@
-Generator-Fronty
+Generator-Fronty 4.0.0
 =========
 
 Frontend boilerplate built on yeoman, bower and grunt.
@@ -12,7 +12,7 @@ It's something like Atomic Design and BEM principles I use in HTML\CSS part:
 * No cascades! (just if one block changes while entering another or modificator changes block\element and it's blocks\elements)
 * No global modificators, just with blocks and elements, except parent modificators (see Option 2 in "Block to block modificators")
 * For reusable styling use particles (atoms).
-* Separate styles and scripts, use data-* attributes for logic and classes for styling. (But if DOM manipulation perfomance matters, you know what to do by yourself)
+* Separate styles and scripts, use data-* attributes and IDs for logic and classes for styling. (But if DOM manipulation perfomance matters, you know what to do by yourself)
 
 #### Naming:
 ``` SCSS
@@ -21,10 +21,10 @@ It's something like Atomic Design and BEM principles I use in HTML\CSS part:
 .block-name_modificator {};
 .block-name__element-name_modificator {};
 .block-name {
-  &.modificator {}
+  &._modificator {}
 };
 .block-name__element-name {
-  &.modificator {}
+  &._modificator {}
 };
 ```
 
@@ -33,11 +33,11 @@ It's something like Atomic Design and BEM principles I use in HTML\CSS part:
 // Option 1.
 // parent-block.scss
 .parent-block {
-  &.reverse-color {
-    background:black;
+  &._reverse-color {
+    background: black;
 
     .child-block {
-      background:white;
+      background: white;
     }
     .child-block__element {
       color: black;
@@ -51,12 +51,12 @@ It's something like Atomic Design and BEM principles I use in HTML\CSS part:
 // Option 2.
 // parent-block.scss
 .parent-block {
-  &.reverse-color {
+  &._reverse-color {
     background:black;
   }
 }
 // child-block.scss
-.reverse-color {
+._reverse-color {
   .child-block {
     background:white;
   }
@@ -74,9 +74,9 @@ It's something like Atomic Design and BEM principles I use in HTML\CSS part:
 %particle-name {};
 
 .block-name {
-@include %particle-name();
-// or
-@extend %particle-name;
+  @include %particle-name();
+  // or
+  @extend %particle-name;
 }
 ```
 
@@ -98,7 +98,6 @@ grunt wPre:server # prebuild with watch and server
 grunt block:name # add block with html,sass files and add it to styles/_blocks.sass
 grunt rBlock:name # remove block
 grunt uBlocks # updates blocks.sass
-grunt static:name # add static page
 ```
 
 ### Templates navigation:
@@ -113,15 +112,13 @@ grunt static:name # add static page
 
 ### TODO
 * make pages constructor mustache->html with [mustache-render](http://projects.the5thwall.net/mustache-render/)
-* make second UseminPrepare task with no minification (2.0 throws error, waiting for npm publish)
+* make second UseminPrepare task with no minification (2.0.2 throws error, waiting for npm publish)
 * add tests
 
 ## Release History
+* 4.0.0 Static pages deprecated, all dependencies updates.
 * 3.0.0 New HTML\CSS methodology, major updates and bug fixes.
 * 2.3.0 Watch expanded with browser-sync.
 * 2.2.0 Collector.html helps you construct static layout from mustache templates.
-* 2.1.0 Compass and Ruby Sass changed to node-sass (it's really fast 5-10x)
-* 2.0.0 Foundation 5 is here and set by default
-* 1.2.0 .html files changed to .mustache, minor fixes in gruntfile
-* 1.1.0 Static pages added, code refactoring done
-* 1.0.0 Here is Fronty!
+* 2.1.0 Compass and Ruby Sass changed to node-sass (it's really fast 5-10x).
+* 2.0.0 Foundation 5 is here and set by default.

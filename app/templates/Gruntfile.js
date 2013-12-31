@@ -1,4 +1,4 @@
-var localIP = '192.168.1.5';
+//var localIP = '192.168.1.5';
 var lrsnippet = require('connect-livereload')();
 var mountFolder = function (connect, dir) {
   return connect.static(require('path').resolve(dir));
@@ -9,23 +9,34 @@ module.exports = function (grunt) {
   grunt.initConfig({
     watch: {
       options: {},
-      sass: {
+      sassMain: {
         options: {
           spawn: false
         },
         files: [
-          'app/styles/**/*.{scss,sass}',
           'app/fonts/**/*.{css,scss,sass}',
-          'app/blocks/**/*.{scss,sass}',
-          'app/static/**/*.{scss,sass}'
+          'app/styles/**/*.{scss,sass}',
+          'app/blocks/**/_*.{scss,sass}'
         ],
-        tasks: ['sass', 'autoprefixer']
+        tasks: ['sass:main', 'autoprefixer:main']
+      },
+      sassBlocks: {
+        options: {
+          spawn: false
+        },
+        files: [
+          'app/blocks/**/!(_)*.{scss,sass}'
+        ],
+        tasks: ['sass:blocks', 'autoprefixer:blocks']
       },
       hogan: {
         options: {
           spawn: false
         },
-        files: ['app/templates/**/*.{html,mustache}', 'app/blocks/**/*.{html,mustache}'],
+        files: [
+          'app/templates/**/*.{html,mustache}',
+          'app/blocks/**/*.{html,mustache}'
+        ],
         tasks: ['hogan']
       },
       concat: {
@@ -37,7 +48,7 @@ module.exports = function (grunt) {
       }
     },
     browser_sync: {
-      files: {
+      bsFiles: {
         src: [
           '.tmp/**/*.css',
           '.tmp/**/*.js',
@@ -47,20 +58,20 @@ module.exports = function (grunt) {
           'app/**/*.html',
           'app/fonts/**/*',
           'app/images/{,*/}*.{png,jpg,jpeg,gif,webp,svg,apng}',
-          'app/static/**/*.{html,js}'
         ]
       },
       options: {
         watchTask: true,
-        host: localIP,
+        proxy: {
+          host: 'localhost',
+          port: 9000
+        },
+//        host: localIP,
         ghostMode: {
           scroll: true,
           links: true,
           forms: true
         }
-//        server: {
-//          baseDir: 'app'
-//        }
       }
     },
     connect: {
@@ -100,7 +111,7 @@ module.exports = function (grunt) {
       },
       main: {
         files: {
-          '.tmp/styles/all.css': 'app/styles/all.scss'
+          '.tmp/styles/main.css': 'app/styles/main.scss'
         }
       },
       blocks: {
@@ -108,30 +119,20 @@ module.exports = function (grunt) {
           {
             expand: true,
             cwd: 'app/blocks/',
-            src: ['**/!(_)*.scss'],
+            src: ['**/*.scss'],
             dest: '.tmp/blocks/',
-            ext: '.css'
-          }
-        ]
-      },
-      static: {
-        files: [
-          {
-            expand: true,
-            cwd: 'app/static/',
-            src: ['**/!(_)*.scss'],
-            dest: '.tmp/static/',
             ext: '.css'
           }
         ]
       }
     },
     useminPrepare: {
-      html: ['app/index.html', 'app/static/**/*.html'],
+      html: ['app/index.html'],
       options: {
         dest: 'dist'
 //        flow: {
-//          steps: { 'js': ['concat'] }
+//          steps: { js: ['concat'] },
+//          post: {}
 //        }
       }
     },
@@ -139,8 +140,7 @@ module.exports = function (grunt) {
       html: ['dist/*.{html,mustache}'],
       css: [
         'dist/styles/{,*/}*.css',
-        'dist/blocks/**/*.css',
-        'dist/static/**/*.css'
+        'dist/blocks/**/*.css'
       ],
       options: {
         dirs: ['dist']
@@ -159,16 +159,22 @@ module.exports = function (grunt) {
       }
     },
     autoprefixer: {
-      make: {
+      main: {
         files: [
           {
             expand: true,
             cwd: '.tmp',
-            src: [
-              'styles/{,*/}*.css',
-              'blocks/**/*.css',
-              'static/**/*.css'
-            ],
+            src: ['styles/**/*.css'],
+            dest: '.tmp'
+          }
+        ]
+      },
+      blocks: {
+        files: [
+          {
+            expand: true,
+            cwd: '.tmp',
+            src: ['blocks/**/*.css'],
             dest: '.tmp'
           }
         ]
@@ -182,8 +188,7 @@ module.exports = function (grunt) {
             cwd: '.tmp',
             src: [
               'styles/{,*/}*.css',
-              'blocks/**/*.css',
-              'static/**/*.css'
+              'blocks/**/*.css'
             ],
             dest: 'dist'
           }
@@ -222,10 +227,7 @@ module.exports = function (grunt) {
           {
             expand: true,
             cwd: 'app',
-            src: [
-              '*.html',
-              'static/**/*.html'
-            ],
+            src: ['*.html'],
             dest: 'dist'
           }
         ]
@@ -341,8 +343,7 @@ module.exports = function (grunt) {
             dest: 'dist',
             src: [
               'styles/*.css',
-              'blocks/**/*.css',
-              'static/**/*.css'
+              'blocks/**/*.css'
             ]
           }
         ]
@@ -350,7 +351,7 @@ module.exports = function (grunt) {
     },
     hogan: {
       options: {
-        defaultName: function(filename) {
+        defaultName: function (filename) {
           filename = filename.split('/').pop().split('.').shift();
           return filename;
         }
@@ -360,9 +361,7 @@ module.exports = function (grunt) {
           namespace: 'devBlocks'
         },
         files: {
-          '.tmp/scripts/dev/dev-blocks.js' : [
-            'app/blocks/**/*.{html,mustache}',
-          ]
+          '.tmp/scripts/dev/dev-blocks.js': ['app/blocks/**/*.{html,mustache}']
         }
       },
       templates: {
@@ -370,7 +369,7 @@ module.exports = function (grunt) {
           namespace: 'devTemplates'
         },
         files: {
-          '.tmp/scripts/dev/dev-templates.js' : [
+          '.tmp/scripts/dev/dev-templates.js': [
             'app/templates/**/*.{html,mustache}'
           ]
         }
@@ -380,7 +379,7 @@ module.exports = function (grunt) {
           namespace: 'templates'
         },
         files: {
-          '.tmp/scripts/dist-templates.js' : [
+          '.tmp/scripts/dist-templates.js': [
             'app/blocks/**/*_c.{html,mustache}'
           ]
         }
@@ -519,12 +518,6 @@ module.exports = function (grunt) {
   grunt.registerTask('rBlock', 'Removes block in blocks folder and updates block.scss.', function (name) {
     grunt.file['delete']('app/blocks/' + name);
     updateBlockList();
-  });
-
-  grunt.registerTask('static', 'Adds static page in "static" folder', function (name) {
-    grunt.file.write('app/static/' + name + '/index.html', '<!DOCTYPE html>\n<html lang="ru">\n<head>\n    <meta charset="utf-8">\n    <meta http-equiv="X-UA-Compatible" content="IE=edge">    \n    <meta name="viewport" content="width=device-width, initial-scale=1.0">\n    <meta name="description" content="">\n    <link type="image/x-icon" rel="shortcut icon" href="/favicon.ico"/>\n\n    <title></title>\n\n    <link rel="stylesheet" href="/static/pageName/pageName.css">\n\n    <!-- build:js /static/pageName/utilities.js -->\n    <script src="/bower_components/modernizr/modernizr.js"></script>\n    <!-- endbuild -->\n\n</head>\n<body>\n\n<div class="layout">\n\n\n\n\n\n</div>\n\n<!-- build:js /static/pageName/pageName.js -->\n<script type="text/javascript" src="/bower_components/jquery/jquery.js"></script>\n<script type="text/javascript" src="/static/pageName/pageName.js"></script>\n<!-- endbuild -->\n\n<script src="http://192.168.1.5:3000/socket.io/socket.io.js"></script>\n<script src="http://192.168.1.5:3001/browser-sync-client.min.js"></script>\n<!--<script src="http://192.168.1.5:8080/target/target-script-min.js#anonymous"></script>-->\n\n</body>\n\n</html>');
-    grunt.file.write('app/static/' + name + '/' + name + '.scss', '');
-    grunt.file.write('app/static/' + name + '/' + name + '.js', '');
   });
 
 };
