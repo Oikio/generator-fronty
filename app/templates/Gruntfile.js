@@ -510,7 +510,7 @@ module.exports = function (grunt) {
     });
     grunt.file.write('app/blocks/' + name + '/' + name + '.mustache', '<div class="' + name + '">\n\n  \n\n</div>');
     grunt.file.write('app/blocks/' + name + '/_' + name + '.scss', '.' + name + ' {}');
-    grunt.file.write('app/blocks/' + name + '/' + name + '.js', '$(function() {\n  \n});');
+    grunt.file.write('app/blocks/' + name + '/' + name + '.js', '');
     grunt.file.write('app/blocks/' + name + '/' + name + '_fish.js', 'gBlocks.' + CCName + ' = {\n   \n};');
     updateBlockList();
   });

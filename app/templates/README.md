@@ -1,6 +1,6 @@
 Built with [generator-fronty] (https://github.com/Oikio/generator-fronty).
 
-Generator-Fronty 4.0.0
+Generator-Fronty 4.0.1
 =========
 
 Frontend boilerplate built on yeoman, bower and grunt.

@@ -1,7 +1,1 @@
-$(function() {
-
-  $(document).foundation();
-
-
-
-});
+$(document).foundation();
