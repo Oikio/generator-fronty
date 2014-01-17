@@ -1,4 +1,4 @@
-Generator-Fronty 4.0.0
+Generator-Fronty 4.0.2
 =========
 
 Frontend boilerplate built on yeoman, bower and grunt.

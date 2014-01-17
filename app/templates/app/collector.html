@@ -15,7 +15,7 @@
 
 <body>
 
-<div class="w-layout"></div>
+<div class="layout"></div>
 
 <!------------------------------------------ Dev tools ------------------------------------------>
 
@@ -34,12 +34,12 @@
     window.gBlocks = {};
 </script>
 
-<script type="text/javascript" src="bower_components/jquery/jquery.js"></script>
+<script src="http://code.jquery.com/jquery-2.0.3.min.js"></script>
 
 <!-- build:js({.tmp,app}) scripts/dev/dev.js -->
 <script type="text/javascript" src="bower_components\hogan\web\builds\2.0.0\hogan-2.0.0.js"></script>
 <script type="text/javascript" src="scripts/dev/fish_blocks.js"></script>
-<script type="text/javascript" src="scripts/dist-templates.js"></script>
+<script type="text/javascript" src="scripts/dev/dev-blocks.js"></script>
 <script type="text/javascript" src="scripts/dev/dev-templates.js"></script>
 <script type="text/javascript" src="scripts/dev/fish_groups.js"></script>
 <script type="text/javascript" src="scripts/dev/protonav.js"></script>
@@ -49,9 +49,9 @@
 <!--<script src="http://192.168.1.5:8080/target/target-script-min.js#anonymous"></script>-->
 
 <script type="text/javascript">
-    var name = 'main';
+    var templateName = 'main';
     var context = 'main';
-    protoRender(localStorage.getItem('defaultProto') || name, localStorage.getItem('defaultFish') || context);
+    protoRender(localStorage.getItem('defaultProto') || templateName, localStorage.getItem('defaultFish') || context);
 //    protoRender(name, context);
 </script>
 
