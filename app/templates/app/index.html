@@ -4,33 +4,43 @@
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <!-- insert:meta -->
+
+    <!-- start:devMeta -->
     <meta name="description" content="">
     <link type="image/x-icon" rel="shortcut icon" href="favicon.ico"/>
-
     <title><%= _.slugify(projectName) %></title>
+    <!-- end:devMeta -->
+
 
     <link rel="stylesheet" href="styles/main.css">
 
     <!-- build:js scripts/utilities.js -->
-    <script src="bower_components/modernizr/modernizr.js"></script>
+    <script src="bower/modernizr/modernizr.js"></script>
     <!-- endbuild -->
+
 </head>
 
 <body>
 
-<div class="layout"></div>
+<div class="layout">
+    <!-- insert:content -->
+</div>
 
 <script src="http://code.jquery.com/jquery-2.0.3.min.js"></script>
 
 <!-- build:js scripts/main.js -->
-<script type="text/javascript" src="bower_components/foundation/js/foundation/foundation.js"></script>
+<script type="text/javascript" src="bower/fastclick/lib/fastclick.js"></script>
+<script type="text/javascript" src="bower/foundation/js/foundation/foundation.js"></script>
 <script type="text/javascript" src="scripts/main.js"></script>
 <!-- endbuild -->
 
+<!-- insert:bottom-->
 
-<!------------------------------------------ Dev tools ------------------------------------------>
+<!-- start:devTools -->
 
-<!-- setting fish utilities  -->
+<!-- setting fish utilities -->
 <script type="text/javascript">
     window.clone = function (obj) {
         var Clone, c;
@@ -47,7 +57,7 @@
 
 
 <!-- build:js({.tmp,app}) scripts/dev/dev.js -->
-<script type="text/javascript" src="bower_components\hogan\web\builds\2.0.0\hogan-2.0.0.js"></script>
+<script type="text/javascript" src="bower\hogan\web\builds\2.0.0\hogan-2.0.0.js"></script>
 <script type="text/javascript" src="scripts/dev/fish_blocks.js"></script>
 <script type="text/javascript" src="scripts/dev/dev-blocks.js"></script>
 <script type="text/javascript" src="scripts/dev/dev-templates.js"></script>
@@ -65,7 +75,7 @@
 <!--<script src="http://192.168.1.5:8080/target/target-script-min.js#anonymous"></script>-->
 
 
-<!------------------------------------------ End of Dev tools ------------------------------------------>
+<!-- end:devTools -->
 
 </body>
 

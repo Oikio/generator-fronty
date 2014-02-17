@@ -107,7 +107,7 @@ module.exports = function (grunt) {
     },
     sass: {
       options: {
-        includePaths: ['app/bower_components/foundation/scss']
+        includePaths: ['app/bower/foundation/scss']
       },
       main: {
         files: {
@@ -327,7 +327,7 @@ module.exports = function (grunt) {
               '*.appcache',
               '**/*.{html,mustache}',
               'fonts/**/**',
-              '!bower_components/**',
+              '!bower/**',
               'blocks/**/*.js',
               '!blocks/**/*_fish.js'
             ]
@@ -393,6 +393,9 @@ module.exports = function (grunt) {
       }
     },
     concurrent: {
+      options: {
+        limit: 8
+      },
       server: [
         'concat:fish',
         'sass',
@@ -440,7 +443,8 @@ module.exports = function (grunt) {
       'concat',
       'uglify',
       'copy:dist',
-      'usemin'
+      'usemin',
+      'productionIndex'
     ]);
   });
   grunt.registerTask('default', ['build']);
@@ -455,7 +459,8 @@ module.exports = function (grunt) {
       'uglify',
       'copy:prebuild',
       'copy:prebuildTmp',
-      'usemin'
+      'usemin',
+      'productionIndex'
     ]
   );
   grunt.registerTask('wPre', 'Watching files for change and compiles project with no minification, can handle server with target \':server\'.', function (target) {
@@ -518,6 +523,44 @@ module.exports = function (grunt) {
   grunt.registerTask('rBlock', 'Removes block in blocks folder and updates block.scss.', function (name) {
     grunt.file['delete']('app/blocks/' + name);
     updateBlockList();
+  });
+
+  grunt.registerTask('productionIndex', 'Creates production.html file for production usage', function (name) {
+    var template = grunt.file.read('app/index.html');
+    template = template
+      .replace(/<!-- start:devMeta -->((.|[\r\n])*?)<!-- end:devMeta -->/g, '')
+      .replace(/<!-- start:devTools -->((.|[\r\n])*?)<!-- end:devTools -->/g, '');
+    grunt.file.write('dist/production.html', template);
+  });
+
+  grunt.registerTask('hoganToHTML', 'Render hogan templates to .html files', function (name) {
+    var Hogan = require('hogan.js');
+    var templates = {};
+    var templatesPath = './.tmp/scripts/dev/dev-templates.js';
+    var blocksPath = './.tmp/scripts/dev/dev-blocks.js';
+    var rendersPath = './dist/';
+    var templateRendersPath = './dist/templates/renders/';
+    var indexFile = grunt.file.read('dist/production.html');
+
+    templates.$set = function () {
+      eval(grunt.file.read(blocksPath));
+      eval(grunt.file.read(templatesPath));
+    };
+    templates.$set();
+
+    for (var template in templates.devTemplates) {
+      if (templates.devTemplates.hasOwnProperty(template)) {
+        var templateRender = templates.devTemplates[template].render('', templates.devBlocks);
+        grunt.file.write(templateRendersPath + template + '.html', templateRender);
+        templateRender = indexFile.replace('<!-- insert:content -->', '\n' + templateRender + '\n');
+        grunt.file.write(rendersPath + template + '.html', templateRender);
+      }
+    }
+
+  });
+
+  grunt.registerTask('render', 'Build and render hogan templates to .html files', function (name) {
+    grunt.task.run(['build', 'hoganToHTML']);
   });
 
 };

@@ -50,7 +50,7 @@ FrontsterGenerator.prototype.askFor = function askFor() {
 
 FrontsterGenerator.prototype.app = function app() {
   this.mkdir('app');
-  this.mkdir('app/bower_components');
+  this.mkdir('app/bower');
   this.mkdir('app/fonts');
   this.mkdir('app/images');
   this.mkdir('app/images/fish');
@@ -70,12 +70,11 @@ FrontsterGenerator.prototype.app = function app() {
   this.template('_package.json', 'package.json');
   this.template('Gruntfile.js', 'Gruntfile.js');
   this.template('app/index.html', 'app/index.html');
-  this.template('app/collector.html', 'app/collector.html');
 };
 
 FrontsterGenerator.prototype.projectfiles = function projectfiles() {
   this.copy('editorconfig', '.editorconfig');
   this.copy('_jshintrc', '.jshintrc');
   this.copy('_gitignore', '.gitignore');
-  this.copy('README.md', '.README.md');
+  this.copy('../../README.md', 'README.md');
 };

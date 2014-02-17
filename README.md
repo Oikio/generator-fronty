@@ -1,4 +1,4 @@
-Generator-Fronty 4.0.2
+[Generator-fronty] (https://github.com/Oikio/generator-fronty). 4.1.0
 =========
 
 Frontend boilerplate built on yeoman, bower and grunt.
@@ -85,6 +85,8 @@ It's something like Atomic Design and BEM principles I use in HTML\CSS part:
 npm install -g generator-fronty
 cd myProjectFolder
 yo fronty
+grunt server
+grunt build
 ```
 
 ### Commands:
@@ -98,6 +100,7 @@ grunt wPre:server # prebuild with watch and server
 grunt block:name # add block with html,sass files and add it to styles/_blocks.sass
 grunt rBlock:name # remove block
 grunt uBlocks # updates blocks.sass
+grunt render # renders all .mustache templates to html files
 ```
 
 ### Templates navigation:
@@ -110,12 +113,27 @@ grunt uBlocks # updates blocks.sass
     * Bower
     * Yeoman
 
+### Files and folders explanation
+```
+app/ - source folder
+dist/ - production folder
+index.html - source index file
+production.html - production index file
+other .html in root - templates from "grunt render" command
+
+bower - vendor files installed from bower
+scripts/dev/ - files for development purposes only
+templates/render/ - rendered templates from "grunt render" command
+```
+
 ### TODO
-* make pages constructor mustache->html with [mustache-render](http://projects.the5thwall.net/mustache-render/)
 * make second UseminPrepare task with no minification (2.0.2 throws error, waiting for npm publish)
-* add tests
+* update jpgegtran-bin and imagmein (still get error on minification)
+* add tests with Karma for generator
+* add tests with Karma for projects
 
 ## Release History
+* 4.1.0 grunt render task and production.html added, collector.html deprecated.
 * 4.0.0 Static pages deprecated, all dependencies updates.
 * 3.0.0 New HTML\CSS methodology, major updates and bug fixes.
 * 2.3.0 Watch expanded with browser-sync.
