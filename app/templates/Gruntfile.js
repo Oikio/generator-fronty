@@ -99,7 +99,7 @@ module.exports = function (grunt) {
         files: [
           {
             dot: true,
-            src: ['.tmp', 'dist/*', '!dist/.git*']
+            src: ['.tmp', 'dist/*', '!dist/.git*', 'render/*']
           }
         ]
       },
@@ -347,6 +347,43 @@ module.exports = function (grunt) {
             ]
           }
         ]
+      },
+      render: {
+        files: [
+          {
+            expand: true,
+            dot: true,
+            cwd: 'dist',
+            dest: 'render',
+            src: ['**']
+      }
+        ]
+    },
+      renderSourceApp: {
+        files: [
+          {
+            expand: true,
+            dot: true,
+            cwd: 'app',
+            dest: 'render/sources',
+            src: ['**']
+          }
+        ]
+      },
+      renderSourceTmp: {
+        files: [
+          {
+            expand: true,
+            dot: true,
+            cwd: '.tmp',
+            dest: 'render/sources',
+            src: [
+              'blocks/**',
+              'scripts/**',
+              'styles/**'
+            ]
+          }
+        ]
       }
     },
     hogan: {
@@ -508,24 +545,24 @@ module.exports = function (grunt) {
     updateBlockList();
   });
 
-  grunt.registerTask('block', 'Adds block in blocks folder and updates block.scss.', function (name) {
+  grunt.registerTask('block', 'Adds block in blocks folder and updates block.scss.', function (target) {
     var CCName;
-    CCName = name.replace(/-([a-z])/g, function (g) {
+    CCName = target.replace(/-([a-z])/g, function (g) {
       return g[1].toUpperCase();
     });
-    grunt.file.write('app/blocks/' + name + '/' + name + '.mustache', '<div class="' + name + '">\n\n  \n\n</div>');
-    grunt.file.write('app/blocks/' + name + '/_' + name + '.scss', '.' + name + ' {}');
-    grunt.file.write('app/blocks/' + name + '/' + name + '.js', '(function () {\n  \n  \n  \n})();');
-    grunt.file.write('app/blocks/' + name + '/' + name + '_fish.js', 'gBlocks.' + CCName + ' = {\n   \n};');
+    grunt.file.write('app/blocks/' + target + '/' + target + '.mustache', '<div class="' + target + '">\n\n  \n\n</div>');
+    grunt.file.write('app/blocks/' + target + '/_' + target + '.scss', '.' + target + ' {}');
+    grunt.file.write('app/blocks/' + target + '/' + target + '.js', '(function () {\n  \n  \n  \n})();');
+    grunt.file.write('app/blocks/' + target + '/' + target + '_fish.js', 'gBlocks.' + CCName + ' = {\n   \n};');
     updateBlockList();
   });
 
-  grunt.registerTask('rBlock', 'Removes block in blocks folder and updates block.scss.', function (name) {
-    grunt.file['delete']('app/blocks/' + name);
+  grunt.registerTask('rBlock', 'Removes block in blocks folder and updates block.scss.', function (target) {
+    grunt.file['delete']('app/blocks/' + target);
     updateBlockList();
   });
 
-  grunt.registerTask('productionIndex', 'Creates production.html file for production usage', function (name) {
+  grunt.registerTask('productionIndex', 'Creates production.html file for production usage', function (target) {
     var template = grunt.file.read('app/index.html');
     template = template
       .replace(/<!-- start:devMeta -->((.|[\r\n])*?)<!-- end:devMeta -->/g, '')
@@ -533,14 +570,22 @@ module.exports = function (grunt) {
     grunt.file.write('dist/production.html', template);
   });
 
-  grunt.registerTask('hoganToHTML', 'Render hogan templates to .html files', function (name) {
+  grunt.registerTask('createRenderFolder', 'Creates render folder', function (target) {
+    grunt.task.run([
+      'copy:render',
+      'copy:renderSourceApp',
+      'copy:renderSourceTmp'
+    ]);
+  });
+
+  grunt.registerTask('hoganToHTML', 'Render hogan templates to .html files', function (target) {
     var Hogan = require('hogan.js');
     var templates = {};
     var templatesPath = './.tmp/scripts/dev/dev-templates.js';
     var blocksPath = './.tmp/scripts/dev/dev-blocks.js';
-    var rendersPath = './dist/';
-    var templateRendersPath = './dist/templates/renders/';
-    var indexFile = grunt.file.read('dist/production.html');
+    var rendersPath = './render/';
+    var templateRendersPath = './render/templates/renders/';
+    var indexFile = grunt.file.read('render/production.html');
 
     templates.$set = function () {
       eval(grunt.file.read(blocksPath));
@@ -557,10 +602,13 @@ module.exports = function (grunt) {
       }
     }
 
+    grunt.file.delete('render/index.html');
+    grunt.file.delete('render/production.html');
+
   });
 
-  grunt.registerTask('render', 'Build and render hogan templates to .html files', function (name) {
-    grunt.task.run(['build', 'hoganToHTML']);
+  grunt.registerTask('render', 'Build and render hogan templates to .html files', function (target) {
+    grunt.task.run(['build', 'createRenderFolder', 'hoganToHTML']);
   });
 
 };

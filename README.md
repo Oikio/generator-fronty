@@ -1,4 +1,4 @@
-[Generator-fronty] (https://github.com/Oikio/generator-fronty). 4.1.0
+[Generator-fronty] (https://github.com/Oikio/generator-fronty). 4.2.0
 =========
 
 Frontend boilerplate built on yeoman, bower and grunt.
@@ -100,7 +100,7 @@ grunt wPre:server # prebuild with watch and server
 grunt block:name # add block with html,sass files and add it to styles/_blocks.sass
 grunt rBlock:name # remove block
 grunt uBlocks # updates blocks.sass
-grunt render # renders all .mustache templates to html files
+grunt render # renders all .mustache templates to .html files and creates render folder with sources for client
 ```
 
 ### Templates navigation:
@@ -127,12 +127,14 @@ templates/render/ - rendered templates from "grunt render" command
 ```
 
 ### TODO
+* make better logs
 * make second UseminPrepare task with no minification (2.0.2 throws error, waiting for npm publish)
 * update jpgegtran-bin and imagmein (still get error on minification)
 * add tests with Karma for generator
 * add tests with Karma for projects
 
 ## Release History
+* 4.2.0 render tasks creates new folder render
 * 4.1.0 grunt render task and production.html added, collector.html deprecated.
 * 4.0.0 Static pages deprecated, all dependencies updates.
 * 3.0.0 New HTML\CSS methodology, major updates and bug fixes.
