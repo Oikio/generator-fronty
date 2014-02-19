@@ -127,6 +127,8 @@ templates/render/ - rendered templates from "grunt render" command
 ```
 
 ### TODO
+* make Foundation optional
+* make gulp brunch
 * make second UseminPrepare task with no minification (2.0.2 throws error, waiting for npm publish)
 * update jpgegtran-bin and imagmein (still get error on minification)
 * add tests with Karma for generator
