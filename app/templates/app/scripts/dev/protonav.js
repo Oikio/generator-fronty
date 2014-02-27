@@ -1,3 +1,5 @@
+'use strict';
+
 function protoNav() {
   var $body = $('body');
   var $doc = $(document);

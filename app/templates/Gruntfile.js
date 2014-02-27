@@ -1,11 +1,12 @@
 //var localIP = '192.168.1.5';
-var lrsnippet = require('connect-livereload')();
-var mountFolder = function (connect, dir) {
-  return connect.static(require('path').resolve(dir));
-};
 
 module.exports = function (grunt) {
+
   require('load-grunt-tasks')(grunt);
+
+  // Time how long tasks take. Can help when optimizing build times
+  require('time-grunt')(grunt);
+
   grunt.initConfig({
     watch: {
       options: {},
@@ -81,16 +82,19 @@ module.exports = function (grunt) {
       },
       livereload: {
         options: {
-          middleware: function (connect) {
-            return [mountFolder(connect, '.tmp'), mountFolder(connect, 'app')];
-          }
+          base: [
+            '.tmp',
+            'app'
+          ]
         }
       },
       dist: {
         options: {
-          middleware: function (connect) {
-            return [lrsnippet, mountFolder(connect, 'test'), mountFolder(connect, 'dist')];
-          }
+          base: [
+            '.tmp',
+            'test',
+            'app'
+          ]
         }
       }
     },
@@ -356,9 +360,9 @@ module.exports = function (grunt) {
             cwd: 'dist',
             dest: 'render',
             src: ['**']
-      }
+          }
         ]
-    },
+      },
       renderSourceApp: {
         files: [
           {
@@ -455,7 +459,7 @@ module.exports = function (grunt) {
 
   grunt.registerTask('server', 'Starting local server with watch task.', function () {
     grunt.task.run([
-      'clean:server',
+      'clean:dist',
       'concurrent:server',
       'autoprefixer',
       'connect:livereload',
@@ -552,7 +556,7 @@ module.exports = function (grunt) {
     });
     grunt.file.write('app/blocks/' + target + '/' + target + '.mustache', '<div class="' + target + '">\n\n  \n\n</div>');
     grunt.file.write('app/blocks/' + target + '/_' + target + '.scss', '.' + target + ' {}');
-    grunt.file.write('app/blocks/' + target + '/' + target + '.js', '(function () {\n  \n  \n  \n})();');
+    grunt.file.write('app/blocks/' + target + '/' + target + '.js', '\'use strict\';\n\n');
     grunt.file.write('app/blocks/' + target + '/' + target + '_fish.js', 'gBlocks.' + CCName + ' = {\n   \n};');
     updateBlockList();
   });
@@ -563,7 +567,7 @@ module.exports = function (grunt) {
   });
 
   grunt.registerTask('productionIndex', 'Creates production.html file for production usage', function (target) {
-    var template = grunt.file.read('app/index.html');
+    var template = grunt.file.read('dist/index.html');
     template = template
       .replace(/<!-- start:devMeta -->((.|[\r\n])*?)<!-- end:devMeta -->/g, '')
       .replace(/<!-- start:devTools -->((.|[\r\n])*?)<!-- end:devTools -->/g, '');

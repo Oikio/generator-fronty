@@ -1,7 +1,8 @@
 .sass-cache
 .idea
 .tmp
-app/bower_components
 node_modules
+Design
+app/bower
 dist
-/Design
+render

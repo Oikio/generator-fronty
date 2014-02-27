@@ -21,6 +21,8 @@
     "grunt-autoprefixer": "latest",
     "grunt-sass": "~0.10.0",
     "grunt-browser-sync": "~0.5.9",
+    "grunt-newer": "~0.5.4",
+    "time-grunt": "~0.2.9",
     "load-grunt-tasks": "~0.3.0",
     "connect-livereload": "~0.3.2",
     "hogan.js": "~2.0.0",

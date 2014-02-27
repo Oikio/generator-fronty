@@ -1,31 +1,31 @@
 <!DOCTYPE html>
 <html lang="ru" class="no-js">
 <head>
-    <meta charset="utf-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-    <!-- insert:meta -->
+  <!-- insert:meta -->
 
-    <!-- start:devMeta -->
-    <meta name="description" content="">
-    <link type="image/x-icon" rel="shortcut icon" href="favicon.ico"/>
-    <title><%= _.slugify(projectName) %></title>
-    <!-- end:devMeta -->
+  <!-- start:devMeta -->
+  <meta name="description" content="">
+  <link type="image/x-icon" rel="shortcut icon" href="favicon.ico"/>
+  <title><%= _.slugify(projectName) %></title>
+  <!-- end:devMeta -->
 
 
-    <link rel="stylesheet" href="styles/main.css">
+  <link rel="stylesheet" href="styles/main.css">
 
-    <!-- build:js scripts/utilities.js -->
-    <script src="bower/modernizr/modernizr.js"></script>
-    <!-- endbuild -->
+  <!-- build:js scripts/utilities.js -->
+  <script src="bower/modernizr/modernizr.js"></script>
+  <!-- endbuild -->
 
 </head>
 
 <body>
 
 <div class="layout">
-    <!-- insert:content -->
+  <!-- insert:content -->
 </div>
 
 <script src="http://code.jquery.com/jquery-2.0.3.min.js"></script>
@@ -42,17 +42,17 @@
 
 <!-- setting fish utilities -->
 <script type="text/javascript">
-    window.clone = function (obj) {
-        var Clone, c;
-        Clone = function () {};
-        Clone.prototype = obj;
-        c = new Clone();
-        c.constructor = Clone;
-        return c;
-    };
-    window.gFish = {};
-    gFish.partials = {};
-    window.gBlocks = {};
+  window.clone = function (obj) {
+    var Clone, c;
+    Clone = function () {};
+    Clone.prototype = obj;
+    c = new Clone();
+    c.constructor = Clone;
+    return c;
+  };
+  window.gFish = {};
+  gFish.partials = {};
+  window.gBlocks = {};
 </script>
 
 
@@ -66,10 +66,10 @@
 <!-- endbuild -->
 
 <script type="text/javascript">
-    var templateName = 'main';
-    var context = 'main';
-    protoRender(localStorage.getItem('defaultProto') || templateName, localStorage.getItem('defaultFish') || context);
-    //    protoRender(name, context);
+  var templateName = 'main';
+  var context = 'main';
+  protoRender(localStorage.getItem('defaultProto') || templateName, localStorage.getItem('defaultFish') || context);
+  //    protoRender(name, context);
 </script>
 
 <!--<script src="http://192.168.1.5:8080/target/target-script-min.js#anonymous"></script>-->

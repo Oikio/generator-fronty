@@ -1,5 +1,6 @@
-(function () {
+$(function () {
+  'use strict';
 
   $(document).foundation();
 
-})();
+});
