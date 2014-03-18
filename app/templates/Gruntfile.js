@@ -2,10 +2,13 @@
 
 module.exports = function (grunt) {
 
-  require('load-grunt-tasks')(grunt);
-
   // Time how long tasks take. Can help when optimizing build times
   require('time-grunt')(grunt);
+
+  // Load grunt tasks automatically
+  require('jit-grunt')(grunt, {
+    useminPrepare: 'grunt-usemin'
+  });
 
   grunt.initConfig({
     watch: {
@@ -44,8 +47,8 @@ module.exports = function (grunt) {
         options: {
           spawn: false
         },
-        files: ['app/blocks/**/*_fish.js'],
-        tasks: ['concat:fish']
+        files: ['app/blocks/**/*_state.js'],
+        tasks: ['concat:state']
       }
     },
     browser_sync: {
@@ -55,7 +58,7 @@ module.exports = function (grunt) {
           '.tmp/**/*.js',
           'app/scripts/**/*.js',
           'app/blocks/**/*.js',
-          '!app/blocks/**/*_fish.js',
+          '!app/blocks/**/*_state.js',
           'app/**/*.html',
           'app/fonts/**/*',
           'app/images/{,*/}*.{png,jpg,jpeg,gif,webp,svg,apng}',
@@ -156,7 +159,7 @@ module.exports = function (grunt) {
           {
             expand: true,
             cwd: 'app',
-            src: ['blocks/**/*.js', '!blocks/**/*_fish.js'],
+            src: ['blocks/**/*.js', '!blocks/**/*_state.js'],
             dest: 'dist'
           }
         ]
@@ -309,7 +312,6 @@ module.exports = function (grunt) {
             dest: 'dist',
             src: [
               '*',
-              '.htaccess',
               'images/{,*/}*.{webp,apng,gif}',
               '*.appcache',
               'fonts/**/**'
@@ -325,15 +327,13 @@ module.exports = function (grunt) {
             cwd: 'app',
             dest: 'dist',
             src: [
-              '*.{ico,txt}',
-              '.htaccess',
+              '*',
               'images/**/*',
-              '*.appcache',
               '**/*.{html,mustache}',
               'fonts/**/**',
               '!bower/**',
               'blocks/**/*.js',
-              '!blocks/**/*_fish.js'
+              '!blocks/**/*_state.js'
             ]
           }
         ]
@@ -427,9 +427,9 @@ module.exports = function (grunt) {
       }
     },
     concat: {
-      fish: {
+      state: {
         files: {
-          '.tmp/scripts/dev/fish_blocks.js': ['app/blocks/**/*_fish.js']
+          '.tmp/scripts/dev/state_blocks.js': ['app/blocks/**/*_state.js']
         }
       }
     },
@@ -438,7 +438,7 @@ module.exports = function (grunt) {
         limit: 8
       },
       server: [
-        'concat:fish',
+        'concat:state',
         'sass',
         'hogan'
       ],
@@ -556,8 +556,8 @@ module.exports = function (grunt) {
     });
     grunt.file.write('app/blocks/' + target + '/' + target + '.mustache', '<div class="' + target + '">\n\n  \n\n</div>');
     grunt.file.write('app/blocks/' + target + '/_' + target + '.scss', '.' + target + ' {}');
-    grunt.file.write('app/blocks/' + target + '/' + target + '.js', '\'use strict\';\n\n');
-    grunt.file.write('app/blocks/' + target + '/' + target + '_fish.js', 'gBlocks.' + CCName + ' = {\n   \n};');
+    grunt.file.write('app/blocks/' + target + '/' + target + '.js', '');
+    grunt.file.write('app/blocks/' + target + '/' + target + '_state.js', 'gBlocks.' + CCName + ' = {\n   \n};');
     updateBlockList();
   });
 

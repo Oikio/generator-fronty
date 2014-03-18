@@ -22,11 +22,10 @@
   "node": true,
   "yui": true,
   "globals": {
-    "gFish": false,
+    "gState": false,
     "gBlocks": false,
     "devTemplates": false,
     "devBlocks": false,
-    "templates": false,
-    "clone": false
+    "templates": false
   }
 }

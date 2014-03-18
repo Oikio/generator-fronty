@@ -1,13 +1,20 @@
 @charset "UTF-8";
 // i - include HTML
 
+@import "../bower/foundation/scss/foundation/functions";
+
 // Vars
 @import "vars";
-@import "mixins";
 @import "helpers";
 @import "palette";
 @import "foundation-settings";
-$include-open-sans: false;
+
+// Particles
+@import "particles/clearfix";
+@import "particles/justify";
+
+// Reset
+//@import "../bower/foundation/scss/normalize";
 
 // Fonts
 

@@ -1,4 +1,4 @@
-[Generator-fronty] (https://github.com/Oikio/generator-fronty). v4.2.0
+[Generator-fronty] (https://github.com/Oikio/generator-fronty). v4.3.0
 =========
 
 Frontend boilerplate built on yeoman, bower and grunt.
@@ -11,8 +11,9 @@ It's something like Atomic Design and BEM principles I use in HTML\CSS part:
 * Styles depend on classes, not tags or ids.
 * No cascades! (just if one block changes while entering another or modificator changes block\element and it's blocks\elements)
 * No global modificators, just with blocks and elements, except parent modificators (see Option 2 in "Block to block modificators")
-* For reusable styling use particles (atoms).
+* For reusable styling use particles (atoms — mixins\placeholders).
 * Separate styles and scripts, use data-* attributes and IDs for logic and classes for styling. (But if DOM manipulation perfomance matters, you know what to do by yourself)
+* Every reusable component should be separate block
 
 #### Naming:
 ``` SCSS
@@ -121,19 +122,22 @@ index.html - source index file
 production.html - production index file
 other .html in root - templates from "grunt render" command
 
-bower - vendor files installed from bower
-scripts/dev/ - files for development purposes only
-templates/render/ - rendered templates from "grunt render" command
+app/bower - vendor files installed from bower
+app/scripts/dev/ - files for development purposes only
+dist/templates/render/ - rendered templates from "grunt render" command
 ```
 
 ### TODO
-* check gulp
-* replace grunt tasks with subgenerators
+* Try Gulp with express and middleware
+* rewrite protonav
+* add notifications with https://github.com/dylang/grunt-notify
+* grunt render should use dist folder
 * make Foundation optional
+* render mustache templates on server during development [task for Grunt] (https://www.npmjs.org/package/grunt-mustache-render) or using connect and nodeJS
 * make second UseminPrepare task with no minification (2.0.2 throws error, waiting for npm publish)
 * update jpgegtran-bin and imagmein (still get error on minification)
-* add tests with Karma for generator
-* add tests with Karma for projects
+* add tests for generator
+* add tests for projects
 
 ## Release History
 * 4.1.0 grunt render task and production.html added, collector.html deprecated.
