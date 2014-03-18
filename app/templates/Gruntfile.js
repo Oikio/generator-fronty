@@ -6,9 +6,7 @@ module.exports = function (grunt) {
   require('time-grunt')(grunt);
 
   // Load grunt tasks automatically
-  require('jit-grunt')(grunt, {
-    useminPrepare: 'grunt-usemin'
-  });
+  require('jit-grunt')(grunt, {useminPrepare: 'grunt-usemin'});
 
   grunt.initConfig({
     watch: {

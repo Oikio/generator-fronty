@@ -128,12 +128,10 @@ dist/templates/render/ - rendered templates from "grunt render" command
 ```
 
 ### TODO
-* Try Gulp with express and middleware
-* rewrite protonav
-* add notifications with https://github.com/dylang/grunt-notify
+* render mustache templates on server during development [task for Grunt] (https://www.npmjs.org/package/grunt-mustache-render) or using connect and nodeJS
 * grunt render should use dist folder
 * make Foundation optional
-* render mustache templates on server during development [task for Grunt] (https://www.npmjs.org/package/grunt-mustache-render) or using connect and nodeJS
+* rewrite protonav
 * make second UseminPrepare task with no minification (2.0.2 throws error, waiting for npm publish)
 * update jpgegtran-bin and imagmein (still get error on minification)
 * add tests for generator
