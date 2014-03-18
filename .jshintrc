@@ -22,6 +22,10 @@
   "node": true,
   "yui": true,
   "globals": {
-    "MY_GLOBAL": false
+    "gState": false,
+    "gBlocks": false,
+    "devTemplates": false,
+    "devBlocks": false,
+    "templates": false
   }
 }
