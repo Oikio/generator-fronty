@@ -128,7 +128,7 @@ dist/templates/render/ - rendered templates from "grunt render" command
 ```
 
 ### TODO
-* Try Gulp with express and middleware
+* Maybe try Gulp with express and middleware instead?
 * rewrite protonav
 * add notifications with https://github.com/dylang/grunt-notify
 * grunt render should use dist folder
