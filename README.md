@@ -1,4 +1,4 @@
-[Generator-fronty] (https://github.com/Oikio/generator-fronty). v4.3.0
+[Generator-fronty] (https://github.com/Oikio/generator-fronty). v5.0.0
 =========
 
 Frontend boilerplate built on yeoman, bower and grunt.
@@ -86,7 +86,7 @@ It's something like Atomic Design and BEM principles I use in HTML\CSS part:
 npm install -g generator-fronty
 cd myProjectFolder
 yo fronty
-grunt server
+grunt serve
 grunt build
 ```
 
@@ -94,7 +94,7 @@ grunt build
 ``` bash
 grunt [build] # build project
 grunt build:server # build and load server
-grunt server # connect server with livereload for prototyping
+grunt serve # connect server with livereload for prototyping
 grunt pre # fast build with no minification for debugging
 grunt wPre # prebuild with watch
 grunt wPre:server # prebuild with watch and server
@@ -126,16 +126,6 @@ app/bower - vendor files installed from bower
 app/scripts/dev/ - files for development purposes only
 dist/templates/render/ - rendered templates from "grunt render" command
 ```
-
-### TODO
-* render mustache templates on server during development [task for Grunt] (https://www.npmjs.org/package/grunt-mustache-render) or using connect and nodeJS
-* grunt render should use dist folder
-* make Foundation optional
-* rewrite protonav
-* make second UseminPrepare task with no minification (2.0.2 throws error, waiting for npm publish)
-* update jpgegtran-bin and imagmein (still get error on minification)
-* add tests for generator
-* add tests for projects
 
 ## Release History
 * 4.1.0 grunt render task and production.html added, collector.html deprecated.

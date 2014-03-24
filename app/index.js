@@ -28,6 +28,7 @@ FrontsterGenerator.prototype.askFor = function askFor() {
       message: 'What is the name of your project?',
       default: 'Project'
     }
+    //TODO make Foundation optional
 //    {
 //      type: 'checkbox',
 //      name: 'stuff',
@@ -73,7 +74,7 @@ FrontsterGenerator.prototype.app = function app() {
 
 FrontsterGenerator.prototype.projectfiles = function projectfiles() {
   this.copy('editorconfig', '.editorconfig');
-  this.copy('_jshintrc', '.jshintrc');
+  this.copy('.jshintrc', '.jshintrc');
   this.copy('_gitignore', '.gitignore');
   this.copy('../../README.md', 'README.md');
 };

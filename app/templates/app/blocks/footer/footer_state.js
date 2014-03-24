@@ -1,3 +1,6 @@
-gBlocks.footer = {
-   
-};
+(function () {
+  'use strict';
+  gBlocks.footer = {
+
+  };
+}());

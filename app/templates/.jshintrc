@@ -24,6 +24,7 @@
   "globals": {
     "gState": false,
     "gBlocks": false,
+    "gFish": false,
     "devTemplates": false,
     "devBlocks": false,
     "templates": false

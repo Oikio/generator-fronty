@@ -1,12 +1,19 @@
+'use strict';
 //var localIP = '192.168.1.5';
+var Hogan = require('hogan.js');
+
+var mountFolder = function (connect, dir) {
+  return connect.static(require('path').resolve(dir));
+};
 
 module.exports = function (grunt) {
-
   // Time how long tasks take. Can help when optimizing build times
   require('time-grunt')(grunt);
 
   // Load grunt tasks automatically
-  require('jit-grunt')(grunt, {useminPrepare: 'grunt-usemin'});
+  require('jit-grunt')(grunt, {
+    useminPrepare: 'grunt-usemin'
+  });
 
   grunt.initConfig({
     watch: {
@@ -37,7 +44,7 @@ module.exports = function (grunt) {
         },
         files: [
           'app/templates/**/*.{html,mustache}',
-          'app/blocks/**/*.{html,mustache}'
+          'app/blocks/**/*.{html,mustache}',
         ],
         tasks: ['hogan']
       },
@@ -46,26 +53,33 @@ module.exports = function (grunt) {
           spawn: false
         },
         files: ['app/blocks/**/*_state.js'],
-        tasks: ['concat:state']
+        tasks: ['concat:fish']
+      },
+      jshint: {
+        options: {
+          spawn: false
+        },
+        files: ['app/**/*.js'],
+        tasks: ['jshint']
       }
     },
-    browser_sync: {
+    browserSync: {
       bsFiles: {
         src: [
           '.tmp/**/*.css',
           '.tmp/**/*.js',
           'app/scripts/**/*.js',
           'app/blocks/**/*.js',
-          '!app/blocks/**/*_state.js',
+          '!app/blocks/**/*_fish.js',
           'app/**/*.html',
           'app/fonts/**/*',
-          'app/images/{,*/}*.{png,jpg,jpeg,gif,webp,svg,apng}',
+          'app/images/{,*/}*.{png,jpg,jpeg,gif,webp,svg,apng}'
         ]
       },
       options: {
         watchTask: true,
         proxy: {
-          host: 'localhost',
+          host: '0.0.0.0',
           port: 9000
         },
 //        host: localIP,
@@ -81,34 +95,42 @@ module.exports = function (grunt) {
         port: 9000,
         hostname: '0.0.0.0'
       },
-      livereload: {
+      serve: {
         options: {
-          base: [
-            '.tmp',
-            'app'
-          ]
+          middleware: function (connect) {
+            return [mountFolder(connect, '.tmp'), mountFolder(connect, 'app')];
+          }
         }
       },
       dist: {
         options: {
-          base: [
-            '.tmp',
-            'test',
-            'app'
-          ]
+          livereload: true,
+          middleware: function (connect) {
+            return [mountFolder(connect, 'test'), mountFolder(connect, 'dist')];
+          }
         }
       }
+    },
+    jshint: {
+      options: {
+        jshintrc: '.jshintrc',
+        reporter: require('jshint-stylish')
+      },
+      all: [
+        'app/**/*.js',
+        '!app/bower/**'
+      ]
     },
     clean: {
       dist: {
         files: [
           {
             dot: true,
-            src: ['.tmp', 'dist/*', '!dist/.git*', 'render/*']
+            src: ['.tmp', 'dist/*', '!dist/.git*']
           }
         ]
       },
-      server: '.tmp'
+      serve: '.tmp'
     },
     sass: {
       options: {
@@ -131,6 +153,7 @@ module.exports = function (grunt) {
         ]
       }
     },
+    //TODO make second UseminPrepare task with no minification (2.1.0 throws error)
     useminPrepare: {
       html: ['app/index.html'],
       options: {
@@ -149,18 +172,6 @@ module.exports = function (grunt) {
       ],
       options: {
         dirs: ['dist']
-      }
-    },
-    uglify: {
-      blocks: {
-        files: [
-          {
-            expand: true,
-            cwd: 'app',
-            src: ['blocks/**/*.js', '!blocks/**/*_state.js'],
-            dest: 'dist'
-          }
-        ]
       }
     },
     autoprefixer: {
@@ -185,7 +196,7 @@ module.exports = function (grunt) {
         ]
       }
     },
-    cssmin: {
+    csso: {
       dist: {
         files: [
           {
@@ -310,6 +321,7 @@ module.exports = function (grunt) {
             dest: 'dist',
             src: [
               '*',
+              '.htaccess',
               'images/{,*/}*.{webp,apng,gif}',
               '*.appcache',
               'fonts/**/**'
@@ -325,13 +337,15 @@ module.exports = function (grunt) {
             cwd: 'app',
             dest: 'dist',
             src: [
-              '*',
+              '*.{ico,txt}',
+              '.htaccess',
               'images/**/*',
+              '*.appcache',
               '**/*.{html,mustache}',
               'fonts/**/**',
               '!bower/**',
               'blocks/**/*.js',
-              '!blocks/**/*_state.js'
+              '!blocks/**/*_fish.js'
             ]
           }
         ]
@@ -350,24 +364,13 @@ module.exports = function (grunt) {
           }
         ]
       },
-      render: {
-        files: [
-          {
-            expand: true,
-            dot: true,
-            cwd: 'dist',
-            dest: 'render',
-            src: ['**']
-          }
-        ]
-      },
       renderSourceApp: {
         files: [
           {
             expand: true,
             dot: true,
             cwd: 'app',
-            dest: 'render/sources',
+            dest: 'dist/sources',
             src: ['**']
           }
         ]
@@ -378,7 +381,7 @@ module.exports = function (grunt) {
             expand: true,
             dot: true,
             cwd: '.tmp',
-            dest: 'render/sources',
+            dest: 'dist/sources',
             src: [
               'blocks/**',
               'scripts/**',
@@ -425,7 +428,7 @@ module.exports = function (grunt) {
       }
     },
     concat: {
-      state: {
+      fish: {
         files: {
           '.tmp/scripts/dev/state_blocks.js': ['app/blocks/**/*_state.js']
         }
@@ -435,14 +438,15 @@ module.exports = function (grunt) {
       options: {
         limit: 8
       },
-      server: [
-        'concat:state',
+      serve: [
+        'concat:fish',
         'sass',
-        'hogan'
+        'hogan',
+        'jshint'
       ],
       dist: [
         'sass',
-        'imagemin',
+        'newer:imagemin',
         'htmlmin',
         'svgmin',
         'hogan'
@@ -455,13 +459,13 @@ module.exports = function (grunt) {
   });
 
 
-  grunt.registerTask('server', 'Starting local server with watch task.', function () {
+  grunt.registerTask('serve', 'Starting local server with watch task.', function () {
     grunt.task.run([
-      'clean:dist',
-      'concurrent:server',
+      'clean:serve',
+      'concurrent:serve',
       'autoprefixer',
-      'connect:livereload',
-      'browser_sync',
+      'connect:serve',
+      'browserSync',
       'watch'
     ]);
   });
@@ -478,7 +482,7 @@ module.exports = function (grunt) {
       'useminPrepare',
       'concurrent:dist',
       'autoprefixer',
-      'cssmin',
+      'csso',
       'concat',
       'uglify',
       'copy:dist',
@@ -490,16 +494,14 @@ module.exports = function (grunt) {
 
   grunt.registerTask('pre', 'Builds project with no minification.',
     [
-      'clean:dist',
       'useminPrepare',
       'concurrent:prebuild',
-      'autoprefixer',
+      'newer:autoprefixer',
       'concat',
-      'uglify',
-      'copy:prebuild',
-      'copy:prebuildTmp',
-      'usemin',
-      'productionIndex'
+      'newer:uglify',
+      'newer:copy:prebuild',
+      'newer:copy:prebuildTmp',
+      'usemin'
     ]
   );
   grunt.registerTask('wPre', 'Watching files for change and compiles project with no minification, can handle server with target \':server\'.', function (target) {
@@ -543,10 +545,6 @@ module.exports = function (grunt) {
     return grunt.file.write('app/styles/_blocks.scss', paths);
   };
 
-  grunt.registerTask('uBlocks', 'Updates list of sass blocks in blocks.scss.', function () {
-    updateBlockList();
-  });
-
   grunt.registerTask('block', 'Adds block in blocks folder and updates block.scss.', function (target) {
     var CCName;
     CCName = target.replace(/-([a-z])/g, function (g) {
@@ -554,7 +552,7 @@ module.exports = function (grunt) {
     });
     grunt.file.write('app/blocks/' + target + '/' + target + '.mustache', '<div class="' + target + '">\n\n  \n\n</div>');
     grunt.file.write('app/blocks/' + target + '/_' + target + '.scss', '.' + target + ' {}');
-    grunt.file.write('app/blocks/' + target + '/' + target + '.js', '');
+    grunt.file.write('app/blocks/' + target + '/' + target + '.js', '(function () {\n  \'use strict\';\n  \n}());');
     grunt.file.write('app/blocks/' + target + '/' + target + '_state.js', 'gBlocks.' + CCName + ' = {\n   \n};');
     updateBlockList();
   });
@@ -569,25 +567,16 @@ module.exports = function (grunt) {
     template = template
       .replace(/<!-- start:devMeta -->((.|[\r\n])*?)<!-- end:devMeta -->/g, '')
       .replace(/<!-- start:devTools -->((.|[\r\n])*?)<!-- end:devTools -->/g, '');
-    grunt.file.write('dist/production.html', template);
-  });
-
-  grunt.registerTask('createRenderFolder', 'Creates render folder', function (target) {
-    grunt.task.run([
-      'copy:render',
-      'copy:renderSourceApp',
-      'copy:renderSourceTmp'
-    ]);
+    grunt.file.write('dist/index.html', template);
   });
 
   grunt.registerTask('hoganToHTML', 'Render hogan templates to .html files', function (target) {
-    var Hogan = require('hogan.js');
     var templates = {};
     var templatesPath = './.tmp/scripts/dev/dev-templates.js';
     var blocksPath = './.tmp/scripts/dev/dev-blocks.js';
-    var rendersPath = './render/';
-    var templateRendersPath = './render/templates/renders/';
-    var indexFile = grunt.file.read('render/production.html');
+    var rendersPath = './dist/';
+    var templateRendersPath = './dist/templates/renders/';
+    var indexFile = grunt.file.read('dist/index.html');
 
     templates.$set = function () {
       eval(grunt.file.read(blocksPath));
@@ -603,14 +592,18 @@ module.exports = function (grunt) {
         grunt.file.write(rendersPath + template + '.html', templateRender);
       }
     }
-
-    grunt.file.delete('render/index.html');
-    grunt.file.delete('render/production.html');
-
   });
 
   grunt.registerTask('render', 'Build and render hogan templates to .html files', function (target) {
-    grunt.task.run(['build', 'createRenderFolder', 'hoganToHTML']);
+    grunt.task.run([
+
+    ]);
+    grunt.task.run([
+      'build',
+      'copy:renderSourceApp',
+      'copy:renderSourceTmp',
+      'hoganToHTML'
+    ]);
   });
 
 };

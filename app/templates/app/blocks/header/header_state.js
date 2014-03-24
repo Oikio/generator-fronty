@@ -1,3 +1,6 @@
-gBlocks.header = {
-   
-};
+(function () {
+  'use strict';
+  gBlocks.header = {
+
+  };
+}());

@@ -21,12 +21,9 @@
     <!-- endbuild -->
 
 </head>
-
 <body>
 
-<div class="layout">
-    <!-- insert:content -->
-</div>
+<div class="layout"><!-- insert:content --></div>
 
 <script src="http://code.jquery.com/jquery-2.0.3.min.js"></script>
 
@@ -81,6 +78,10 @@
     protoRender(localStorage.getItem('defaultProto') || templateName, localStorage.getItem('defaultState') || context);
     //    protoRender(name, context);
 </script>
+
+<script src='//192.168.1.5:3000/socket.io/socket.io.js'></script>
+<script>var ___socket___ = io.connect('http://192.168.1.5:3000');</script>
+<script src='//192.168.1.5:3001/client/browser-sync-client.0.7.2.js'></script>
 
 <!--<script src="http://192.168.1.5:8080/target/target-script-min.js#anonymous"></script>-->
 
