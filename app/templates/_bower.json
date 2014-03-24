@@ -13,11 +13,10 @@
   "authors": [
     "Oikio <oikiostas@gmail.com>"
   ],
-  "main": "Gruntfile.coffee",
+  "main": "gulp.js",
   "license": "MIT",
   "dependencies": {},
   "devDependencies": {
-    "foundation": "~5.2.1",
-    "hogan": "~3.0.0"
+    "foundation": "~5.2.1"
   }
 }
