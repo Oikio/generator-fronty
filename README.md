@@ -128,6 +128,7 @@ dist/templates/render/ - rendered templates from "grunt render" command
 ```
 
 ## Release History
+* 5.0.0 some rethinking of core concepts.
 * 4.1.0 grunt render task and production.html added, collector.html deprecated.
 * 4.0.0 Static pages deprecated, all dependencies updates.
 * 3.0.0 New HTML\CSS methodology, major updates and bug fixes.

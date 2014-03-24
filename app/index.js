@@ -67,7 +67,7 @@ FrontyGenerator.prototype.app = function app() {
 
   this.template('_bower.json', 'bower.json');
   this.template('_package.json', 'package.json');
-  this.template('gulpfile.js', 'gulpfile.js');
+  this.template('Gruntfile.js', 'Gruntfile.js');
   this.template('app/index.html', 'app/index.html');
 };
 

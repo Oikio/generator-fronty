@@ -321,9 +321,7 @@ module.exports = function (grunt) {
             dest: 'dist',
             src: [
               '*',
-              '.htaccess',
               'images/{,*/}*.{webp,apng,gif}',
-              '*.appcache',
               'fonts/**/**'
             ]
           }
@@ -494,6 +492,7 @@ module.exports = function (grunt) {
 
   grunt.registerTask('pre', 'Builds project with no minification.',
     [
+      'clean:dist',
       'useminPrepare',
       'concurrent:prebuild',
       'newer:autoprefixer',
