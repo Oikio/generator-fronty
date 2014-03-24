@@ -4,7 +4,7 @@ var path = require('path');
 var yeoman = require('yeoman-generator');
 
 
-var FrontsterGenerator = module.exports = function FrontsterGenerator(args, options, config) {
+var FrontyGenerator = module.exports = function FrontsterGenerator(args, options, config) {
   yeoman.generators.Base.apply(this, arguments);
 
   this.on('end', function () {
@@ -14,9 +14,9 @@ var FrontsterGenerator = module.exports = function FrontsterGenerator(args, opti
   this.pkg = JSON.parse(this.readFileAsString(path.join(__dirname, '../package.json')));
 };
 
-util.inherits(FrontsterGenerator, yeoman.generators.Base);
+util.inherits(FrontyGenerator, yeoman.generators.Base);
 
-FrontsterGenerator.prototype.askFor = function askFor() {
+FrontyGenerator.prototype.askFor = function askFor() {
   var cb = this.async(), prompts;
 
   // have Yeoman greet the user.
@@ -49,13 +49,12 @@ FrontsterGenerator.prototype.askFor = function askFor() {
   }.bind(this));
 };
 
-FrontsterGenerator.prototype.app = function app() {
+FrontyGenerator.prototype.app = function app() {
   this.mkdir('app');
   this.mkdir('app/bower');
   this.mkdir('app/fonts');
   this.mkdir('app/images');
   this.mkdir('app/images/fish');
-  this.mkdir('app/styles/particles');
   this.mkdir('app/templates');
 
   this.directory('app/blocks', 'app/blocks');
@@ -68,11 +67,11 @@ FrontsterGenerator.prototype.app = function app() {
 
   this.template('_bower.json', 'bower.json');
   this.template('_package.json', 'package.json');
-  this.template('Gruntfile.js', 'Gruntfile.js');
+  this.template('gulpfile.js', 'gulpfile.js');
   this.template('app/index.html', 'app/index.html');
 };
 
-FrontsterGenerator.prototype.projectfiles = function projectfiles() {
+FrontyGenerator.prototype.projectfiles = function projectfiles() {
   this.copy('editorconfig', '.editorconfig');
   this.copy('.jshintrc', '.jshintrc');
   this.copy('_gitignore', '.gitignore');
