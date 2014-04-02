@@ -84,9 +84,10 @@ module.exports = function (grunt) {
         },
 //        host: localIP,
         ghostMode: {
-          scroll: true,
+          clicks: true,
           links: true,
-          forms: true
+          forms: true,
+          scroll: true
         }
       }
     },
